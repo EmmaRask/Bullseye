@@ -3,11 +3,66 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const CIRCLE_SIZE = 15;
-const TARGET_SIZE = 40;
-const CONTAINER_WIDTH = 70;
-const CONTAINER_HEIGHT = 70;
+const CONTAINER_WIDTH = 300;
+const CONTAINER_HEIGHT = 500;
 const BORDER_WIDTH = 2; // border thickness on each side
 const BUOYANCY = 0.08; // strength of center-seeking force
+
+const TARGETS_CONFIG = [
+  { size: 20, label: 'XS' },
+  { size: 30, label: 'S' },
+  { size: 40, label: 'M' },
+  { size: 50, label: 'L' },
+  { size: 60, label: 'XL' },
+];
+
+const generateRandomPositions = () => {
+  const PADDING = 10;
+  const positions: Array<{ size: number; label: string; x: number; y: number }> = [];
+  const usedAreas: Array<{ x: number; y: number; size: number }> = [];
+
+  // Helper to check if a position overlaps with existing targets
+  const overlaps = (newX: number, newY: number, newSize: number) => {
+    for (const used of usedAreas) {
+      const dx = newX + newSize / 2 - (used.x + used.size / 2);
+      const dy = newY + newSize / 2 - (used.y + used.size / 2);
+      const minDistance = (newSize + used.size) / 2 + PADDING;
+      if (Math.sqrt(dx * dx + dy * dy) < minDistance) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // Try to place each target
+  for (const config of TARGETS_CONFIG) {
+    let placed = false;
+    let attempts = 0;
+    const maxAttempts = 100;
+
+    while (!placed && attempts < maxAttempts) {
+      const x = Math.random() * (CONTAINER_WIDTH - config.size - PADDING * 2) + PADDING;
+      const y = Math.random() * (CONTAINER_HEIGHT - config.size - PADDING * 2) + PADDING;
+
+      if (!overlaps(x, y, config.size)) {
+        positions.push({ ...config, x, y });
+        usedAreas.push({ x, y, size: config.size });
+        placed = true;
+      }
+
+      attempts++;
+    }
+
+    // If we couldn't place it after max attempts, place it anyway
+    if (!placed) {
+      const x = Math.random() * (CONTAINER_WIDTH - config.size - PADDING * 2) + PADDING;
+      const y = Math.random() * (CONTAINER_HEIGHT - config.size - PADDING * 2) + PADDING;
+      positions.push({ ...config, x, y });
+    }
+  }
+
+  return positions;
+};
 
 export default function BasicShooting() {
   const [circleY, setCircleY] = useState(0);
@@ -15,12 +70,18 @@ export default function BasicShooting() {
   const [result, setResult] = useState('');
   const [resultColor, setResultColor] = useState('');
   const [shots, setShots] = useState<Array<{ x: number; y: number }>>([]);
+  const [targets, setTargets] = useState<Array<{ size: number; label: string; x: number; y: number }>>([]);
   const velocityRef = useRef({ x: 0, y: 0 });
 
-  const target = {
-    x: (CONTAINER_WIDTH - TARGET_SIZE) / 2,
-    y: (CONTAINER_HEIGHT - TARGET_SIZE) / 2,
-  };
+  // Initialize targets on mount
+  useEffect(() => {
+    setTargets(generateRandomPositions());
+  }, []);
+
+  const getTargetPosition = (target: { x: number; y: number }) => ({
+    x: target.x,
+    y: target.y,
+  });
 
   useEffect(() => {
     const animate = () => {
@@ -80,20 +141,25 @@ export default function BasicShooting() {
       },
     ]);
 
-    // Circle-to-circle collision detection (black dot to red target)
-    const targetCenterX = target.x + TARGET_SIZE / 2;
-    const targetCenterY = target.y + TARGET_SIZE / 2;
+    // Check collision with all targets, from smallest to largest
+    let hitTarget = null;
+    for (const target of targets) {
+      const targetPos = getTargetPosition(target);
+      const targetCenterX = targetPos.x + target.size / 2;
+      const targetCenterY = targetPos.y + target.size / 2;
 
-    const distance = Math.sqrt(
-      (shotX - targetCenterX) ** 2 +
-        (shotY - targetCenterY) ** 2
-    );
+      const distance = Math.sqrt(
+        (shotX - targetCenterX) ** 2 + (shotY - targetCenterY) ** 2
+      );
 
-    const minDistance = 0 + TARGET_SIZE / 2; // point collision with target radius
-    const hit = distance < minDistance;
+      if (distance < target.size / 2) {
+        hitTarget = target;
+        break;
+      }
+    }
 
-    if (hit) {
-      setResult('Hit!');
+    if (hitTarget) {
+      setResult(`Hit ${hitTarget.label}!`);
       setResultColor('limegreen');
     } else {
       setResult('Miss!');
@@ -118,18 +184,24 @@ export default function BasicShooting() {
           border: `${BORDER_WIDTH}px solid black`,
         }}
       >
-        {/* Target */}
-        <div
-          style={{
-            position: 'absolute',
-            left: `${target.x}px`,
-            top: `${target.y}px`,
-            width: `${TARGET_SIZE}px`,
-            height: `${TARGET_SIZE}px`,
-            background: 'red',
-            borderRadius: '50%',
-          }}
-        />
+        {/* Targets */}
+        {targets.map((target) => {
+          const pos = getTargetPosition(target);
+          return (
+            <div
+              key={target.label}
+              style={{
+                position: 'absolute',
+                left: `${pos.x}px`,
+                top: `${pos.y}px`,
+                width: `${target.size}px`,
+                height: `${target.size}px`,
+                background: 'red',
+                borderRadius: '50%',
+              }}
+            />
+          );
+        })}
 
         {/* Shot markers */}
         {shots.map((shot, i) => (
