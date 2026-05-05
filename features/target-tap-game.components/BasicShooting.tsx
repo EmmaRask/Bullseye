@@ -62,9 +62,9 @@ export default function BasicShooting() {
     <div
       style={{
         position: 'relative',
-        width: '300px',
-        height: '500px',
-        border: '2px solid black',
+        width: `${CONTAINER_WIDTH}px`,
+        height: `${CONTAINER_HEIGHT}px`,
+        border: `${BORDER_WIDTH}px solid black`,
       }}
     >
       {/* Moving blue circle */}
