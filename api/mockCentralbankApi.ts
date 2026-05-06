@@ -4,9 +4,22 @@ import type {
   StartGameResponse,
 } from "./types";
 
+// export async function mockStartGame(): Promise<StartGameResponse> {
+//   return {
+//     gameSessionId: crypto.randomUUID(),
+//     entryFee: 5,
+//     balanceAfterPayment: 20,
+//   };
+// }
+
 export async function mockStartGame(): Promise<StartGameResponse> {
+  const id =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : Math.random().toString(36).slice(2);
+
   return {
-    gameSessionId: crypto.randomUUID(),
+    gameSessionId: id,
     entryFee: 5,
     balanceAfterPayment: 20,
   };
