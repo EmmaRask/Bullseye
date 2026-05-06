@@ -42,6 +42,7 @@ export function StartScreen() {
             >
             {isLoading ? "Starting..." : "Pay & Start"}
         </button>
+        {errorMessage && <p role="alert">{errorMessage}</p>}
       </div>
     </main>
   );
