@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { GAME_CONFIG } from "../../../game/config";
+import { mockStartGame } from "../../../api/mockCentralbankApi";
 import styles from "./StartScreen.module.css";
 
 export function StartScreen() {
@@ -10,22 +10,21 @@ export function StartScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+
   async function handleStartGame(): Promise<void> {
-    try {
-      setIsLoading(true);
-      setErrorMessage(null);
+  try {
+    setIsLoading(true);
+    setErrorMessage(null);
 
-      // senare: await startGamePayment()
-      await new Promise((resolve) => setTimeout(resolve, 500));
+    await mockStartGame();
 
-      router.push("/play");
-    } catch {
-      setErrorMessage("Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    router.push("/play");
+  } catch {
+    setErrorMessage("Something went wrong. Please try again.");
+  } finally {
+    setIsLoading(false);
   }
-
+}
   return (
     <main className={styles.container}>
       <div className={styles.card}>
@@ -36,8 +35,12 @@ export function StartScreen() {
           <p>Tap when the ball is over a target.</p>
         </section>
 
-        <button className={styles.button}>
-          Pay & Start
+        <button
+            className={styles.button}
+            onClick={handleStartGame}
+            disabled={isLoading}
+            >
+            {isLoading ? "Starting..." : "Pay & Start"}
         </button>
       </div>
     </main>
