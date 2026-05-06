@@ -5,11 +5,13 @@ import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH } from './
 import { targetRandomizer } from './targetRandomizer';
 import { useCirclePhysics } from './useCirclePhysics';
 import { useShootingLogic } from './useShootingLogic';
+import { useGamePoints } from './useGamePoints';
 
 export default function GameScreen() {
   const [targets, setTargets] = useState<Array<{ size: number; label: string; x: number; y: number }>>([]);
   const { circleX, circleY } = useCirclePhysics();
-  const { result, resultColor, shots, handleClick } = useShootingLogic(targets);
+  const { totalPoints, addPoints } = useGamePoints();
+  const { result, resultColor, shots, handleClick } = useShootingLogic(targets, addPoints);
 
   // Initialize targets on mount
   useEffect(() => {
@@ -78,6 +80,7 @@ export default function GameScreen() {
       </div>
 
       <h2 style={{ textAlign: 'center', color: resultColor }}>{result}</h2>
+      <p style={{ textAlign: 'center', fontSize: '18px', fontWeight: 'bold' }}>Points: {totalPoints}</p>
     </div>
   );
 }

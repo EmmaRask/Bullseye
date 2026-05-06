@@ -11,3 +11,11 @@ export const TARGETS_CONFIG = [
   { size: 50, label: 'L' },
   { size: 60, label: 'XL' },
 ];
+
+export const POINTS_MAP: Record<string, number> = {
+  XS: 50,
+  S: 40,
+  M: 30,
+  L: 20,
+  XL: 10,
+};

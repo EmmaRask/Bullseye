@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { CIRCLE_SIZE } from './gameConstants';
 
-export const useShootingLogic = (targets: Array<{ size: number; label: string; x: number; y: number }>) => {
+export const useShootingLogic = (
+  targets: Array<{ size: number; label: string; x: number; y: number }>,
+  onHit?: (targetLabel: string) => void
+) => {
   const [result, setResult] = useState('');
   const [resultColor, setResultColor] = useState('');
   const [shots, setShots] = useState<Array<{ x: number; y: number }>>([]);
@@ -38,6 +41,7 @@ export const useShootingLogic = (targets: Array<{ size: number; label: string; x
     if (hitTarget) {
       setResult(`Hit ${hitTarget.label}!`);
       setResultColor('limegreen');
+      onHit?.(hitTarget.label);
     } else {
       setResult('Miss!');
       setResultColor('red');
