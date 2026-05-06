@@ -3,6 +3,7 @@ export const CONTAINER_WIDTH = 300;
 export const CONTAINER_HEIGHT = 500;
 export const BORDER_WIDTH = 2; // border thickness on each side
 export const BUOYANCY = 0.08; // strength of center-seeking force
+export const GAME_DURATION = 30; // seconds
 
 export const TARGETS_CONFIG = [
   { size: 20, label: 'XS' },

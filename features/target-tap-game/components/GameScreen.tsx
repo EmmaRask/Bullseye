@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH } from './gameConstants';
+import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, GAME_DURATION } from './gameConstants';
 import { targetRandomizer } from './targetRandomizer';
 import { useCirclePhysics } from './useCirclePhysics';
 import { useShootingLogic } from './useShootingLogic';
@@ -9,6 +9,9 @@ import { useGamePoints } from './useGamePoints';
 
 export default function GameScreen() {
   const [targets, setTargets] = useState<Array<{ size: number; label: string; x: number; y: number }>>([]);
+  const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
+  const [gameOver, setGameOver] = useState(false);
+  const [sessionScore, setSessionScore] = useState(0);
   const { circleX, circleY } = useCirclePhysics();
   const { totalPoints, addPoints } = useGamePoints();
   const { result, resultColor, shots, handleClick } = useShootingLogic(targets, addPoints);
@@ -18,7 +21,26 @@ export default function GameScreen() {
     setTargets(targetRandomizer());
   }, []);
 
+  // Timer effect
+  useEffect(() => {
+    if (gameOver) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setGameOver(true);
+          setSessionScore(totalPoints);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [gameOver, totalPoints]);
+
   const handleGameClick = () => {
+    if (gameOver) return;
     handleClick(circleX, circleY);
   };
 
@@ -81,6 +103,13 @@ export default function GameScreen() {
 
       <h2 style={{ textAlign: 'center', color: resultColor }}>{result}</h2>
       <p style={{ textAlign: 'center', fontSize: '18px', fontWeight: 'bold' }}>Points: {totalPoints}</p>
+      <p style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>Time: {timeLeft}s</p>
+      {gameOver && (
+        <div style={{ textAlign: 'center', marginTop: '20px', padding: '20px', backgroundColor: '#f0f0f0', borderRadius: '5px' }}>
+          <h3>Game Over!</h3>
+          <p style={{ fontSize: '24px', fontWeight: 'bold' }}>Final Score: {sessionScore}</p>
+        </div>
+      )}
     </div>
   );
 }
