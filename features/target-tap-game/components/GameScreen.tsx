@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, GAME_DURATION } from './gameConstants';
+import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, GAME_DURATION, LOSE_LIMIT, WIN_LIMIT } from './gameConstants';
 import { targetRandomizer } from './targetRandomizer';
 import { useCirclePhysics } from './useCirclePhysics';
 import { useShootingLogic } from './useShootingLogic';
@@ -12,6 +12,7 @@ export default function GameScreen() {
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [gameOver, setGameOver] = useState(false);
   const [sessionScore, setSessionScore] = useState(0);
+  const [sessionResult, setSessionResult] = useState<'lose' | 'replay' | 'win' | null>(null);
   const { circleX, circleY } = useCirclePhysics();
   const { totalPoints, addPoints } = useGamePoints();
   const { result, resultColor, shots, handleClick } = useShootingLogic(targets, addPoints);
@@ -30,6 +31,16 @@ export default function GameScreen() {
         if (prev <= 1) {
           setGameOver(true);
           setSessionScore(totalPoints);
+          
+          // Determine session result based on score
+          if (totalPoints < LOSE_LIMIT) {
+            setSessionResult('lose');
+          } else if (totalPoints >= WIN_LIMIT) {
+            setSessionResult('win');
+          } else {
+            setSessionResult('replay');
+          }
+          
           return 0;
         }
         return prev - 1;
@@ -108,6 +119,7 @@ export default function GameScreen() {
         <div style={{ textAlign: 'center', marginTop: '20px', padding: '20px', backgroundColor: '#f0f0f0', borderRadius: '5px' }}>
           <h3>Game Over!</h3>
           <p style={{ fontSize: '24px', fontWeight: 'bold' }}>Final Score: {sessionScore}</p>
+          <p style={{ fontSize: '18px', fontWeight: 'bold', textTransform: 'uppercase' }}>Result: {sessionResult}</p>
         </div>
       )}
     </div>
