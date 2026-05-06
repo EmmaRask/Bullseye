@@ -1,5 +1,5 @@
-import BasicShooting from '@/features/target-tap-game.components/BasicShooting';
+import GameScreen from '@/features/target-tap-game/components/GameScreen';
 
 export default function ShootingPage() {
-  return <BasicShooting />;
+  return <GameScreen />;
 }
