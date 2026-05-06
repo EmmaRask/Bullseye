@@ -11,19 +11,23 @@ export function StartScreen() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 
-  async function handleStartGame(): Promise<void> {
-  try {
-    setIsLoading(true);
-    setErrorMessage(null);
+//   async function handleStartGame(): Promise<void> {
+//   try {
+//     setIsLoading(true);
+//     setErrorMessage(null);
 
-    await mockStartGame();
+//     await mockStartGame();
 
-    router.push("/play");
-  } catch {
-    setErrorMessage("Something went wrong. Please try again.");
-  } finally {
-    setIsLoading(false);
-  }
+//     router.push("/play");
+//   } catch {
+//     setErrorMessage("Something went wrong. Please try again.");
+//   } finally {
+//     setIsLoading(false);
+//   }
+// } DEBUGGING TRY
+
+async function handleStartGame() {
+  router.push("/play");
 }
   return (
     <main className={styles.container}>
