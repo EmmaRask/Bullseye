@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, BUOYANCY } from './gameConstants';
+import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, BUOYANCY } from '.././game/config';
 
 export const useCirclePhysics = () => {
   const [circleY, setCircleY] = useState(0);

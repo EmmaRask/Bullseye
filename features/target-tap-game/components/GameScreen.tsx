@@ -1,11 +1,18 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD
 import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, GAME_DURATION, LOSE_LIMIT, WIN_LIMIT } from './gameConstants';
 import { targetRandomizer } from './targetRandomizer';
 import { useCirclePhysics } from './useCirclePhysics';
 import { useShootingLogic } from './useShootingLogic';
 import { useGamePoints } from './useGamePoints';
+=======
+import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH } from '../../../game/config';
+import { targetRandomizer } from '../../../game/targetRandomizer';
+import { useCirclePhysics } from '../../../hooks/useCirclePhysics';
+import { useShootingLogic } from '../../../hooks/useShootingLogic';
+>>>>>>> 959f8d7ea8e4c6f308c8573c7490ca08731169c7
 
 export default function GameScreen() {
   const [targets, setTargets] = useState<Array<{ size: number; label: string; x: number; y: number }>>([]);
