@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { POINTS_MAP } from './gameConstants';
+import { POINTS_MAP } from '../features/target-tap-game/components/gameConstants';
 
 export const useGamePoints = () => {
   const [totalPoints, setTotalPoints] = useState(0);

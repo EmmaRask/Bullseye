@@ -5,8 +5,8 @@ import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, BUOYANCY 
 import { GAME_DURATION, LOSE_LIMIT, WIN_LIMIT } from './gameConstants';
 import { targetRandomizer } from '../../../game/targetRandomizer';
 import { useCirclePhysics } from '../../../hooks/useCirclePhysics';
-import { useShootingLogic } from './useShootingLogic';
-import { useGamePoints } from './useGamePoints';
+import { useShootingLogic } from '../../../hooks/useShootingLogic';
+import { useGamePoints } from '../../../hooks/useGamePoints';
 
 export default function GameScreen() {
   const [targets, setTargets] = useState<Array<{ size: number; label: string; x: number; y: number }>>([]);
