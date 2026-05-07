@@ -16,7 +16,7 @@ type Shot = {
   y: number;
 };
 
-export function useShootingLogic(targets: Target[]) {
+export function useShootingLogic(targets: Target[], onHit?: (label: string) => void) {
   const [result, setResult] = useState("");
   const [resultColor, setResultColor] = useState("");
   const [shots, setShots] = useState<Shot[]>([]);
@@ -46,6 +46,7 @@ export function useShootingLogic(targets: Target[]) {
     if (hitTarget) {
       setResult(`Hit ${hitTarget.label}!`);
       setResultColor("limegreen");
+      onHit?.(hitTarget.label);
     } else {
       setResult("Miss!");
       setResultColor("red");
