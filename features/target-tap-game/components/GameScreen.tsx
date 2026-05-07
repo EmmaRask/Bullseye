@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import styles from './GameScreen.module.css';
 import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, BUOYANCY } from '../../../game/config';
 import { GAME_DURATION, LOSE_LIMIT, WIN_LIMIT } from './gameConstants';
 import { targetRandomizer } from '../../../game/targetRandomizer';
@@ -60,25 +61,18 @@ export default function GameScreen() {
     <div>
       <div
         onClick={handleGameClick}
-        style={{
-          position: 'relative',
-          width: `${CONTAINER_WIDTH}px`,
-          height: `${CONTAINER_HEIGHT}px`,
-          border: `${BORDER_WIDTH}px solid black`,
-        }}
+        className={styles.gameContainer}
       >
         {/* Targets */}
         {targets.map((target) => (
           <div
             key={target.label}
+            className={styles.target}
             style={{
-              position: 'absolute',
               left: `${target.x}px`,
               top: `${target.y}px`,
               width: `${target.size}px`,
               height: `${target.size}px`,
-              background: 'red',
-              borderRadius: '50%',
             }}
           />
         ))}
@@ -87,40 +81,32 @@ export default function GameScreen() {
         {shots.map((shot, i) => (
           <div
             key={i}
+            className={styles.shotMarker}
             style={{
-              position: 'absolute',
               left: `${shot.x - 3}px`,
               top: `${shot.y - 3}px`,
-              width: '6px',
-              height: '6px',
-              background: 'black',
-              borderRadius: '50%',
             }}
           />
         ))}
 
         {/* Moving blue circle */}
         <div
+          className={styles.movingBall}
           style={{
-            position: 'absolute',
             left: `${circleX}px`,
             top: `${circleY}px`,
-            width: `${CIRCLE_SIZE}px`,
-            height: `${CIRCLE_SIZE}px`,
-            border: '2px solid blue',
-            borderRadius: '50%',
           }}
         />
       </div>
 
-      <h2 style={{ textAlign: 'center', color: resultColor }}>{result}</h2>
-      <p style={{ textAlign: 'center', fontSize: '18px', fontWeight: 'bold' }}>Points: {totalPoints}</p>
-      <p style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>Time: {timeLeft}s</p>
+      <h2 className={styles.resultText} style={{ color: resultColor }}>{result}</h2>
+      <p className={styles.pointsText}>Points: {totalPoints}</p>
+      <p className={styles.timerText}>Time: {timeLeft}s</p>
       {gameOver && (
-        <div style={{ textAlign: 'center', marginTop: '20px', padding: '20px', backgroundColor: '#f0f0f0', borderRadius: '5px' }}>
-          <h3>Game Over!</h3>
-          <p style={{ fontSize: '24px', fontWeight: 'bold' }}>Final Score: {sessionScore}</p>
-          <p style={{ fontSize: '18px', fontWeight: 'bold', textTransform: 'uppercase' }}>Result: {sessionResult}</p>
+        <div className={styles.gameOverContainer}>
+          <h3 className={styles.gameOverTitle}>Game Over!</h3>
+          <p className={styles.finalScore}>Final Score: {sessionScore}</p>
+          <p className={styles.sessionResult}>Result: {sessionResult}</p>
         </div>
       )}
     </div>
