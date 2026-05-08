@@ -9,6 +9,7 @@ import { useCirclePhysics } from '../../../hooks/useCirclePhysics';
 import { useShootingLogic } from '../../../hooks/useShootingLogic';
 import { useGamePoints } from '../../../hooks/useGamePoints';
 
+
 export default function GameScreen() {
   const [targets, setTargets] = useState<Array<{ size: number; label: string; x: number; y: number }>>([]);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
@@ -112,3 +113,5 @@ export default function GameScreen() {
     </div>
   );
 }
+
+
