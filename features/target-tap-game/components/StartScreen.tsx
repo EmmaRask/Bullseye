@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { createTransaction } from "../../../api/centralbankAPI";
+import { createTransaction } from "../../../api/centralbankApi";
 import styles from "./StartScreen.module.css";
 
 export function StartScreen() {
