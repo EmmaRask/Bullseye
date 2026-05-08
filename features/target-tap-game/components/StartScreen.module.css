@@ -6,6 +6,7 @@
   background: #0f172a;
 }
 
+
 .card {
   background: white;
   color: #0f172a;
@@ -13,6 +14,12 @@
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
+}
+
+.card input {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
 }
 
 .button {
