@@ -13,7 +13,7 @@ export function StartScreen() {
 
   async function handleStartGame(): Promise<void> {
     if (!playerName.trim()) {
-      setErrorMessage("Please enter your name before starting.");
+      setErrorMessage("Please enter your first name before starting.");
       return;
     }
 
