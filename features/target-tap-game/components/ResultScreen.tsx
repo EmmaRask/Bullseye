@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
 
 export function ResultScreen() {
+  const router = useRouter();
+
   const [scores, setScores] = useState<Array<{ id: string; score: number; player_name: string }>>([]);
 
   useEffect(() => {
@@ -12,6 +15,7 @@ export function ResultScreen() {
       const playerName = localStorage.getItem("playerName");
 
       console.log("current player:", playerName);
+      
 
       const { data, error } = await supabase
         .from('scores')
@@ -41,7 +45,16 @@ export function ResultScreen() {
       ))}
     </div>
     <div className='rewards'></div>
-    <button className='replay'>Replay</button>
-    <button className='quit'>Quit</button>
+    <button
+      className='replay'
+      onClick={() => router.push('/')}>
+      Replay
+    </button>
+
+    <button
+      className='quit'
+      onClick={() => router.push('/')}>
+      Quit
+    </button>
   </>;
 }
