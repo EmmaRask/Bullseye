@@ -9,7 +9,7 @@ import { targetRandomizer } from '../../../game/targetRandomizer';
 import { useCirclePhysics } from '../../../hooks/useCirclePhysics';
 import { useShootingLogic } from '../../../hooks/useShootingLogic';
 import { useGamePoints } from '../../../hooks/useGamePoints';
-
+import { supabase } from '@/lib/supabase';
 
 export default function GameScreen() {
   const router = useRouter();
@@ -57,13 +57,27 @@ export default function GameScreen() {
 
   // Redirect to result page when game over
   useEffect(() => {
-    if (gameOver) {
-      const timer = setTimeout(() => {
-        router.push('/result');
-      });
-      return () => clearTimeout(timer);
+  if (!gameOver) return;
+
+  const saveScoreAndRedirect = async () => {
+    const playerName = localStorage.getItem("playerName") ?? "Unknown";
+
+    const { error } = await supabase.from("scores").insert([
+      {
+        player_name: playerName,
+        score: sessionScore,
+      },
+    ]);
+
+    if (error) {
+      console.error("Error saving score:", error);
     }
-  }, [gameOver, router]);
+
+    router.push("/result");
+  };
+
+  saveScoreAndRedirect();
+  }, [gameOver, sessionScore, router]);
 
   const handleGameClick = () => {
     if (gameOver) return;
