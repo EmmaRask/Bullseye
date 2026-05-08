@@ -1,41 +1,37 @@
 import type {
-  FinishGameRequest,
-  FinishGameResponse,
-  StartGameResponse,
+  TransactionRequest,
+  TransactionResponse,
 } from "./types";
 
-// export async function mockStartGame(): Promise<StartGameResponse> {
-//   return {
-//     gameSessionId: crypto.randomUUID(),
-//     entryFee: 5,
-//     balanceAfterPayment: 20,
-//   };
-// }
-
-export async function mockStartGame(): Promise<StartGameResponse> {
-  const id =
-    typeof crypto !== "undefined" && "randomUUID" in crypto
-      ? crypto.randomUUID()
-      : Math.random().toString(36).slice(2);
-
-  return {
-    gameSessionId: id,
-    entryFee: 5,
-    balanceAfterPayment: 20,
-  };
+function createMockId(): string {
+  return typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : Math.random().toString(36).slice(2);
 }
 
-export async function mockFinishGame(
-  result: FinishGameRequest
-): Promise<FinishGameResponse> {
-  const won = result.score >= 50;
+function createMockStamp(): string {
+  const animals = ["lion", "dolphin", "tucan", "beetlebug", "snake"];
+  const metals = ["silver", "gold", "platinum"];
 
+  const animal = animals[Math.floor(Math.random() * animals.length)];
+  const hasMetal = Math.random() < 0.5;
+
+  if (!hasMetal) {
+    return animal;
+  }
+
+  const metal = metals[Math.floor(Math.random() * metals.length)];
+  return `${metal} ${animal}`;
+}
+
+export async function mockCreateTransaction(
+  transaction: TransactionRequest
+): Promise<TransactionResponse> {
   return {
-    won,
-    payout: won ? 10 : 0,
-    stamp: {
-      animal: "lion",
-      metal: Math.random() < 0.5 ? "gold" : undefined,
-    },
+    uuid: createMockId(),
+    seller: transaction.seller,
+    buyer: transaction.buyer,
+    amount: transaction.amount,
+    stamp: createMockStamp(),
   };
 }

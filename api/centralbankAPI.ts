@@ -1,2 +1,4 @@
-export { mockStartGame as startGame } from "./mockCentralbankApi";
-export { mockFinishGame as finishGame } from "./mockCentralbankApi";
+
+export {
+  mockCreateTransaction as createTransaction,
+} from "./mockCentralbankApi";
