@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './GameScreen.module.css';
 import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, BUOYANCY } from '../../../game/config';
 import { GAME_DURATION, LOSE_LIMIT, WIN_LIMIT } from './gameConstants';
@@ -11,6 +12,7 @@ import { useGamePoints } from '../../../hooks/useGamePoints';
 
 
 export default function GameScreen() {
+  const router = useRouter();
   const [targets, setTargets] = useState<Array<{ size: number; label: string; x: number; y: number }>>([]);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [gameOver, setGameOver] = useState(false);
@@ -52,6 +54,16 @@ export default function GameScreen() {
 
     return () => clearInterval(interval);
   }, [gameOver, totalPoints]);
+
+  // Redirect to result page when game over
+  useEffect(() => {
+    if (gameOver) {
+      const timer = setTimeout(() => {
+        router.push('/result');
+      });
+      return () => clearTimeout(timer);
+    }
+  }, [gameOver, router]);
 
   const handleGameClick = () => {
     if (gameOver) return;
