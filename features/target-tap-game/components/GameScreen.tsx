@@ -11,6 +11,7 @@ import { useShootingLogic } from '../../../hooks/useShootingLogic';
 import { useGamePoints } from '../../../hooks/useGamePoints';
 import { supabase } from '@/lib/supabase';
 
+
 export default function GameScreen() {
   const router = useRouter();
   const [targets, setTargets] = useState<Array<{ size: number; label: string; x: number; y: number }>>([]);
