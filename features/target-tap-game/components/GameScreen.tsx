@@ -110,6 +110,10 @@ export default function GameScreen() {
       <div
         onClick={handleGameClick}
         className={styles.gameContainer}
+        style={{
+          width: `${CONTAINER_WIDTH}px`,
+          height: `${CONTAINER_HEIGHT}px`,
+        }}
       >
         {/* Targets */}
         {targets.map((target) => (
