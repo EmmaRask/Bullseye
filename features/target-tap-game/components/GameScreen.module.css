@@ -1,8 +1,4 @@
-:root {
-  --pageBackgroundColor: #bf3b3b;
-  --gameContainerColor: #f2c356;
-  --displayFont: var(--font-wellfleet);
-}
+@import './sharedVariables.css';
 
 .pageWrapper {
   background-color: var(--pageBackgroundColor);
