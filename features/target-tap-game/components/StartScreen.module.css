@@ -1,5 +1,136 @@
 .container {
   min-height: 100vh;
+  background: #fafafa;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  color: #0e0e2c;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 430px;
+  background: #bf3b3b;
+  padding: 2rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.panel {
+  background: #f2c356;
+  padding: 2rem 1.25rem;
+  text-align: center;
+}
+
+.heroPanel {
+  position: relative;
+  min-height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.title {
+  position: absolute;
+  top: 1.5rem;
+  z-index: 2;
+  margin: 0;
+  font-size: clamp(3rem, 16vw, 5.5rem);
+  line-height: 1;
+  font-weight: 900;
+  color: #000;
+}
+
+.targetWrapper {
+  width: 220px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+}
+
+.panel p {
+  max-width: 280px;
+  margin: 1rem auto;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.label {
+  display: block;
+  margin-top: 1.5rem;
+  font-weight: 700;
+}
+
+.input {
+  width: 100%;
+  max-width: 260px;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 3px solid #bf3b3b;
+  background: #fafafa;
+  color: #0e0e2c;
+  font: inherit;
+  text-align: center;
+}
+
+.button {
+  width: 100%;
+  max-width: 280px;
+  padding: 1.25rem;
+  border: none;
+  background: #bf3b3b;
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  color: #0e0e2c;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    max-width: 720px;
+    padding: 3rem;
+  }
+
+  .heroPanel {
+    min-height: 340px;
+  }
+
+  .targetWrapper {
+    width: 300px;
+    height: 300px;
+  }
+
+  .button {
+    max-width: 420px;
+  }
+}
+
+
+
+
+
+/* .container {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,4 +155,4 @@
 
 .button {
   margin-top: 1rem;
-}
+} */
