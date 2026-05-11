@@ -1,6 +1,8 @@
+@import './sharedVariables.css';
+
 .container {
   min-height: 100vh;
-  background: #fafafa;
+  background-color: var(--pageBackgroundColor);
   display: flex;
   justify-content: center;
   padding: 1rem;
@@ -10,7 +12,7 @@
 .wrapper {
   width: 100%;
   max-width: 430px;
-  background: #bf3b3b;
+  background-color: var(--pageBackgroundColor);
   padding: 2rem 1.25rem;
   display: flex;
   flex-direction: column;
@@ -18,7 +20,7 @@
 }
 
 .panel {
-  background: #f2c356;
+  background-color: var(--gameContainerColor);
   padding: 2rem 1.25rem;
   text-align: center;
 }
@@ -41,6 +43,7 @@
   line-height: 1;
   font-weight: 900;
   color: #000;
+  font-family: var(--displayFont);
 }
 
 .targetWrapper {
@@ -54,6 +57,7 @@
 .panel h2 {
   margin-top: 0;
   font-size: 1.3rem;
+  font-family: var(--displayFont);
 }
 
 .panel p {
@@ -62,12 +66,14 @@
   font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.25;
+  font-family: var(--displayFont);
 }
 
 .label {
   display: block;
   margin-top: 1.5rem;
   font-weight: 700;
+  font-family: var(--displayFont);
 }
 
 .input {
@@ -75,8 +81,8 @@
   max-width: 260px;
   margin-top: 0.5rem;
   padding: 0.75rem;
-  border: 3px solid #bf3b3b;
-  background: #fafafa;
+  border: 3px solid var(--pageBackgroundColor);
+  background-color: #fafafa;
   color: #0e0e2c;
   font: inherit;
   text-align: center;
@@ -87,10 +93,11 @@
   max-width: 280px;
   padding: 1.25rem;
   border: none;
-  background: #bf3b3b;
+  background-color: var(--pageBackgroundColor);
   color: #000;
   font-size: 1.5rem;
   font-weight: 900;
+  font-family: var(--displayFont);
   cursor: pointer;
 }
 
@@ -124,8 +131,6 @@
     max-width: 420px;
   }
 }
-
-
 
 
 

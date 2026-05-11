@@ -1,0 +1,128 @@
+@import './sharedVariables.css';
+
+.container {
+  min-height: 100vh;
+  background-color: var(--pageBackgroundColor);
+  color: #0e0e2c;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 430px;
+  background-color: var(--pageBackgroundColor);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.titlePanel,
+.scorePanel,
+.rewardPanel {
+  background-color: var(--gameContainerColor);
+}
+
+.titlePanel {
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+.titlePanel h1 {
+  margin: 0;
+  font-family: var(--displayFont);
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.scorePanel {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.scoreRow {
+  min-height: 2.75rem;
+  background-color: var(--pageBackgroundColor);
+  color: #000;
+  font-family: var(--displayFont);
+  font-size: 1.35rem;
+  font-weight: 900;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+}
+
+.currentPlayerRow {
+  background-color: #4b2473;
+  color: #fafafa;
+}
+
+.rewardPanel {
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rewardPanel p {
+  margin: 0;
+  font-family: var(--displayFont);
+  font-size: 4rem;
+  font-weight: 900;
+}
+
+.stampCircle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: #c4c4c4;
+}
+
+.buttonPanel {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.buttonPanel button {
+  border: none;
+  padding: 1.25rem 1rem;
+  font-family: var(--displayFont);
+  font-size: 1.6rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.playAgainButton {
+  background-color: #ffeb00;
+  color: #000;
+}
+
+.exitButton {
+  background-color: var(--gameContainerColor);
+  color: #000;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    max-width: 720px;
+    padding: 2rem;
+  }
+
+  .titlePanel h1 {
+    font-size: 2.5rem;
+  }
+
+  .scoreRow {
+    font-size: 1.75rem;
+  }
+
+  .buttonPanel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
