@@ -106,7 +106,7 @@ export default function GameScreen() {
   };
 
   return (
-    <div>
+    <div className={styles.pageWrapper}>
       <div
         onClick={handleGameClick}
         className={styles.gameContainer}
@@ -154,15 +154,6 @@ export default function GameScreen() {
       <h2 className={styles.resultText} style={{ color: resultColor }}>{result}</h2>
       <p className={styles.pointsText}>Points: {totalPoints}</p>
       <p className={styles.timerText}>Time: {timeLeft}s</p>
-      {gameOver && (
-        <div className={styles.gameOverContainer}>
-          <h3 className={styles.gameOverTitle}>Game Over!</h3>
-          <p className={styles.finalScore}>Final Score: {sessionScore}</p>
-          <p className={styles.sessionResult}>Result: {sessionResult}</p>
-        </div>
-      )}
     </div>
   );
 }
-
-
