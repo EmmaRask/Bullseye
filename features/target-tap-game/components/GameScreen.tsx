@@ -9,6 +9,7 @@ import { targetRandomizer } from '../../../game/targetRandomizer';
 import { useCirclePhysics } from '../../../hooks/useCirclePhysics';
 import { useShootingLogic } from '../../../hooks/useShootingLogic';
 import { useGamePoints } from '../../../hooks/useGamePoints';
+import { Crosshair } from './Crosshair';
 import { supabase } from '@/lib/supabase';
 
 
@@ -128,13 +129,7 @@ export default function GameScreen() {
         ))}
 
         {/* Moving blue circle */}
-        <div
-          className={styles.movingBall}
-          style={{
-            left: `${circleX}px`,
-            top: `${circleY}px`,
-          }}
-        />
+        <Crosshair x={circleX} y={circleY} />
       </div>
 
       <h2 className={styles.resultText} style={{ color: resultColor }}>{result}</h2>
