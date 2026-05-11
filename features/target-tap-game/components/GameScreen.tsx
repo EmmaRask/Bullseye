@@ -102,7 +102,17 @@ export default function GameScreen() {
               width: `${target.size}px`,
               height: `${target.size}px`,
             }}
-          />
+          >
+            <img
+              src="/bullseye-target.svg"
+              alt="target"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+              }}
+            />
+          </div>
         ))}
 
         {/* Shot markers */}
