@@ -7,6 +7,7 @@ export const BUOYANCY = 0.08; // strength of center-seeking force
 export const GAME_DURATION = 30; // seconds
 export const LOSE_LIMIT = 50; // minimum score to avoid losing
 export const WIN_LIMIT = 150; // minimum score to win
+export const SHOT_COOLDOWN = 50; // milliseconds between shots
 
 export const TARGETS_CONFIG = [
   { size: 20, label: 'XS' },

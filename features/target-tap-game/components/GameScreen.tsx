@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './GameScreen.module.css';
-import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, BUOYANCY } from '../../../game/config';
+import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, BUOYANCY, SHOT_COOLDOWN } from '../../../game/config';
 import { GAME_DURATION, LOSE_LIMIT, WIN_LIMIT } from './gameConstants';
 import { targetRandomizer } from '../../../game/targetRandomizer';
 import { useCirclePhysics } from '../../../hooks/useCirclePhysics';
@@ -20,6 +20,7 @@ export default function GameScreen() {
   const [gameOver, setGameOver] = useState(false);
   const [sessionScore, setSessionScore] = useState(0);
   const [sessionResult, setSessionResult] = useState<'lose' | 'replay' | 'win' | null>(null);
+  const [lastShotTime, setLastShotTime] = useState(0);
   const { circleX, circleY } = useCirclePhysics();
   const { totalPoints, addPoints } = useGamePoints();
   const { result, resultColor, shots, handleClick } = useShootingLogic(targets, addPoints);
@@ -28,6 +29,19 @@ export default function GameScreen() {
   useEffect(() => {
     setTargets(targetRandomizer());
   }, []);
+
+  // Spacebar handler
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        handleGameClick();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [gameOver, circleX, circleY]);
 
   // Timer effect
   useEffect(() => {
@@ -83,6 +97,11 @@ export default function GameScreen() {
 
   const handleGameClick = () => {
     if (gameOver) return;
+    
+    const now = Date.now();
+    if (now - lastShotTime < SHOT_COOLDOWN) return;
+    
+    setLastShotTime(now);
     handleClick(circleX, circleY);
   };
 
