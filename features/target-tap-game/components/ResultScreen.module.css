@@ -1,0 +1,50 @@
+@import './sharedVariables.css';
+
+.pageWrapper {
+    background-color: var(--pageBackgroundColor);
+    min-height: 100vh;
+}
+
+.topSign {
+    background-color: var(--gameContainerColor);
+    margin: 10px auto;
+    width: 90vw;
+    text-align: center;
+    font-family: var(--displayFont);
+}
+
+.top10 {
+    font-family: var(--displayFont);
+    background-color: var(--gameContainerColor);
+    width: 90vw;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+.scoreEntry {
+    background-color: var(--pageBackgroundColor);
+    margin: 10px;
+    padding: 5px;
+}
+
+.replay {
+    background-color: var(--highlightColor);
+    font-family: var(--displayFont);
+    padding: 10px;
+    flex: 1;
+}
+
+.quit {
+    background-color: var(--gameContainerColor);
+    font-family: var(--displayFont);
+    padding: 10px;
+    flex: 1;
+}
+
+.hori {
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px auto;
+}

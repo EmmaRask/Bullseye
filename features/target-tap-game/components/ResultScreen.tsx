@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
+import styles from './ResultScreen.module.css';
 
 export function ResultScreen() {
   const router = useRouter();
@@ -34,27 +35,30 @@ export function ResultScreen() {
     fetchScores();
   }, []);
 
-  return <>
-    <h1>High scores</h1>
-    <p>Your score: </p>
-    <div className='top10'>
+  return <div className={styles.pageWrapper}>
+    <p className={styles.topSign}>High scores</p>
+    <p className={styles.topSign}>Your score: </p>
+    <div className={styles.top10}>
       {Array.from({ length: 10 }).map((_, i) => (
-        <div key={i}>
+        <div className={styles.scoreEntry} key={i}>
           #{i + 1} {scores[i]?.player_name || '-'} - {scores[i]?.score || '-'}
         </div>
       ))}
     </div>
-    <div className='rewards'></div>
-    <button
-      className='replay'
-      onClick={() => router.push('/')}>
-      Replay
-    </button>
+    <div className={styles.rewards}></div>
 
-    <button
-      className='quit'
-      onClick={() => router.push('/')}>
-      Quit
-    </button>
-  </>;
+    <div className={styles.hori}>
+      <button
+        className={styles.replay}
+        onClick={() => router.push('/')}>
+        Replay
+      </button>
+
+      <button
+        className={styles.quit}
+        onClick={() => router.push('/')}>
+        Quit
+      </button>
+    </div>
+  </div>;
 }
