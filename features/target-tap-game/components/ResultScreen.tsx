@@ -9,13 +9,20 @@ export function ResultScreen() {
   const router = useRouter();
 
   const [scores, setScores] = useState<Array<{ id: string; score: number; player_name: string }>>([]);
+  const [sessionScore, setSessionScore] = useState(0);
 
   useEffect(() => {
     const fetchScores = async () => {
 
       const playerName = localStorage.getItem("playerName");
+      const score = localStorage.getItem("sessionScore");
 
       console.log("current player:", playerName);
+      console.log("session score:", score);
+      
+      if (score) {
+        setSessionScore(parseInt(score));
+      }
       
 
       const { data, error } = await supabase
@@ -37,7 +44,7 @@ export function ResultScreen() {
 
   return <div className={styles.pageWrapper}>
     <p className={styles.topSign}>High scores</p>
-    <p className={styles.topSign}>Your score: </p>
+    <p className={styles.topSign}>Your score: {sessionScore}</p>
     <div className={styles.top10}>
       {Array.from({ length: 10 }).map((_, i) => (
         <div className={styles.scoreEntry} key={i}>

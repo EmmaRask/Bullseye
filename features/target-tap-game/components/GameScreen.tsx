@@ -77,6 +77,9 @@ export default function GameScreen() {
 
   const saveScoreAndRedirect = async () => {
     const playerName = localStorage.getItem("playerName") ?? "Unknown";
+    
+    // Save sessionScore to localStorage
+    localStorage.setItem("sessionScore", sessionScore.toString());
 
     const { error } = await supabase.from("scores").insert([
       {
