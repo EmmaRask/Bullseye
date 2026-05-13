@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createTransaction } from "../../../api/centralbankApi";
+import Image from "next/image";
 import styles from "./StartScreen.module.css";
 
 export function StartScreen() {
@@ -39,32 +40,48 @@ export function StartScreen() {
 
   return (
     <main className={styles.container}>
-      <div className={styles.card}>
-        <h1>🎯 Target Tap</h1>
-
-        <section>
-          <h2>How to play</h2>
-          <p>Tap when the ball is over a target.</p>
+      <div className={styles.wrapper}>
+        <section className={`${styles.panel} ${styles.heroPanel}`}>
+          <h1 className={styles.title}>BULLSEYE</h1>
+          <div className={styles.targetWrapper}>
+            <Image
+              src="/images/bullseye-target.svg"
+              alt="Bullseye target"
+              width={300}
+              height={300}
+              priority
+              />
+          </div>
         </section>
 
-        <label htmlFor="playerName">Player name</label>
-        <input
-          id="playerName"
-          type="text"
-          value={playerName}
-          onChange={(event) => setPlayerName(event.target.value)}
-          placeholder="Enter your name"
-        />
+        <section className={styles.panel}>
+          <h2>How to play</h2>
+            <p>
+              Ye haaw! Klick om the screen or use your keyboard to hit your
+              targets! Are you a quick enough draw cowboy?
+            </p>
 
-        <button
-          className={styles.button}
-          onClick={handleStartGame}
-          disabled={isLoading}
-        >
+          <label htmlFor="playerName">Player name</label>
+          <input
+            id="playerName"
+            type="text"
+            value={playerName}
+            onChange={(event) => setPlayerName(event.target.value)}
+            placeholder="Enter your name"
+          />
+        </section>
+
+        <section className={styles.panel}>
+          <button
+            className={styles.button}
+            onClick={handleStartGame}
+            disabled={isLoading}
+          >
           {isLoading ? "Starting..." : "Pay & Start"}
-        </button>
+          </button>
 
-        {errorMessage && <p role="alert">{errorMessage}</p>}
+          {errorMessage && <p role="alert">{errorMessage}</p>}
+        </section>
       </div>
     </main>
   );
