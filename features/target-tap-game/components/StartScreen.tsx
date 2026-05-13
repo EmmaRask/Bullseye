@@ -24,13 +24,18 @@ export function StartScreen() {
 
       localStorage.setItem("playerName", playerName.trim());
 
-      await createTransaction({
-        seller: "bullseye",
-        buyer: playerName.trim(),
+      const transaction = await createTransaction({
+        identityToken: "mock-token",
         amount: 5,
+        amusementUuid: "bullseye",
       });
 
-      router.push("/play");
+      localStorage.setItem(
+      "transaction",
+      JSON.stringify(transaction)
+    );
+
+    router.push("/play");
     } catch {
       setErrorMessage("Something went wrong. Please try again.");
     } finally {

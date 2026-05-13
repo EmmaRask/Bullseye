@@ -1,6 +1,8 @@
 import type {
-  TransactionRequest,
+  CreateTransactionRequest,
   TransactionResponse,
+  PayoutRequest,
+  PayoutResponse,
 } from "./types";
 
 function createMockId(): string {
@@ -25,13 +27,22 @@ function createMockStamp(): string {
 }
 
 export async function mockCreateTransaction(
-  transaction: TransactionRequest
+  transaction: CreateTransactionRequest
 ): Promise<TransactionResponse> {
+  console.log("Mock transaction:", transaction);
+
   return {
-    uuid: createMockId(),
-    seller: transaction.seller,
-    buyer: transaction.buyer,
-    amount: transaction.amount,
+    transactionId: createMockId(),
     stamp: createMockStamp(),
+  };
+}
+
+export async function mockPayoutTransaction(
+  payout: PayoutRequest
+): Promise<PayoutResponse> {
+  console.log("Mock payout:", payout);
+
+  return {
+    sucess: true,
   };
 }

@@ -29,6 +29,7 @@
 
 .replay {
     background-color: var(--highlightColor);
+    color: #0e0e2c;
     font-family: var(--displayFont);
     padding: 10px;
     flex: 1;
@@ -47,4 +48,96 @@
     justify-content: center;
     gap: 10px;
     margin: 10px auto;
+}
+
+.rewards {
+  background-color: var(--gameContainerColor);
+  min-height: 120px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  font-family: var(--displayFont);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #0e0e2c;
+  text-transform: uppercase;
+  margin-top: 1.5rem;
+}
+
+.rewards p {
+  margin: 0;
+}
+
+.targetImage {
+  width: 100%;
+  height: auto;
+}
+
+.payoutAmount {
+  margin: 0;
+
+  min-width: 120px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--displayFont);
+  font-size: 4rem;
+  font-weight: 900;
+
+  color: #0e0e2c;
+}
+
+.stampCircle {
+  width: 120px;
+  height: 120px;
+
+  border-radius: 50%;
+
+  background-color: #c4c4c4;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+
+  flex-shrink: 0;
+}
+
+.stampCircle span {
+  text-align: center;
+
+  font-family: var(--displayFont);
+  font-size: 1rem;
+  font-weight: 900;
+
+  line-height: 1.1;
+
+  color: #0e0e2c;
+
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    max-width: 720px;
+    padding: 3rem;
+  }
+
+  .heroPanel {
+    min-height: 340px;
+  }
+
+  .targetWrapper {
+    width: 300px;
+    height: 300px;
+  }
+
+  .button {
+    max-width: 420px;
+  }
 }
