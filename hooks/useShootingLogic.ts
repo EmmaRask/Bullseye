@@ -20,13 +20,12 @@ export function useShootingLogic(targets: Target[], onHit?: (label: string) => v
   const [result, setResult] = useState("");
   const [resultColor, setResultColor] = useState("");
   const [shots, setShots] = useState<Shot[]>([]);
+  const [flashingTargets, setFlashingTargets] = useState<Set<string>>(new Set());
 
   function handleClick(circleX: number, circleY: number) {
     const shot = calculateShotPosition(circleX, circleY);
 
     setShots((prev) => [...prev, shot]);
-
-    let hitTarget: Target | null = null;
 
     for (const target of targets) {
       const isHit = isShotInsideTarget(
@@ -38,25 +37,19 @@ export function useShootingLogic(targets: Target[], onHit?: (label: string) => v
       );
 
       if (isHit) {
-        hitTarget = target;
+        setFlashingTargets((prev) => new Set(prev).add(target.label));
+        setTimeout(() => {
+          setFlashingTargets((prev) => {
+            const next = new Set(prev);
+            next.delete(target.label);
+            return next;
+          });
+        }, 100);
+        onHit?.(target.label);
         break;
       }
     }
-
-    if (hitTarget) {
-      setResult(`Hit ${hitTarget.label}!`);
-      setResultColor("limegreen");
-      onHit?.(hitTarget.label);
-    } else {
-      setResult("Miss!");
-      setResultColor("red");
-    }
-
-    setTimeout(() => {
-      setResult("");
-      setResultColor("");
-    }, 500);
   }
 
-  return { result, resultColor, shots, handleClick };
+  return { result, resultColor, shots, handleClick, flashingTargets };
 }

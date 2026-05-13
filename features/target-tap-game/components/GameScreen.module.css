@@ -35,6 +35,10 @@
   user-select: none;
 }
 
+.target.flash {
+  filter: brightness(2.5);
+}
+
 .shotMarker {
   position: absolute;
   width: 6px;
@@ -60,7 +64,7 @@
   font-size: 20px;
   font-weight: bold;
   background-color: #f2c356;
-  width: 15vw;
+  width: 120px;
   margin: 10px auto;
   font-family: var(--displayFont);
 }
@@ -70,7 +74,7 @@
   font-size: 20px;
   font-weight: bold;
   background-color: #f2c356;
-  width: 15vw;
+  width: 120px;
   margin: 10px auto;
   font-family: var(--displayFont);
 }

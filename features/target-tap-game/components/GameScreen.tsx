@@ -22,8 +22,8 @@ export default function GameScreen() {
   const [sessionResult, setSessionResult] = useState<'lose' | 'replay' | 'win' | null>(null);
   const [lastShotTime, setLastShotTime] = useState(0);
   const { circleX, circleY } = useCirclePhysics();
-  const { totalPoints, addPoints } = useGamePoints();
-  const { result, resultColor, shots, handleClick } = useShootingLogic(targets, addPoints);
+  const { totalPoints, addPoints, isHighlighted } = useGamePoints();
+  const { result, resultColor, shots, handleClick, flashingTargets } = useShootingLogic(targets, addPoints);
 
   // Initialize targets on mount
   useEffect(() => {
@@ -125,7 +125,7 @@ export default function GameScreen() {
         {targets.map((target) => (
           <div
             key={target.label}
-            className={styles.target}
+            className={`${styles.target} ${flashingTargets.has(target.label) ? styles.flash : ''}`}
             style={{
               left: `${target.x}px`,
               top: `${target.y}px`,
@@ -169,7 +169,7 @@ export default function GameScreen() {
       </div>
 
       <h2 className={styles.resultText} style={{ color: resultColor }}>{result}</h2>
-      <p className={styles.pointsText}>Points: {totalPoints}</p>
+      <p className={styles.pointsText} style={{ color: isHighlighted ? 'whitesmoke' : 'inherit' }}>Points: {totalPoints}</p>
       <p className={styles.timerText}>Time: {timeLeft}s</p>
     </div>
   );
