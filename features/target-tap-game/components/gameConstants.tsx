@@ -20,5 +20,5 @@ export const POINTS_MAP: Record<string, number> = {
   S: 40,
   M: 30,
   L: 20,
-  XL: 10,
+  XL: 200,
 };
