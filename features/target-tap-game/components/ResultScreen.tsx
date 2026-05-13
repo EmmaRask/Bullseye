@@ -9,13 +9,20 @@ export function ResultScreen() {
   const router = useRouter();
 
   const [scores, setScores] = useState<Array<{ id: string; score: number; player_name: string }>>([]);
+  const [sessionScore, setSessionScore] = useState(0);
 
   useEffect(() => {
     const fetchScores = async () => {
 
       const playerName = localStorage.getItem("playerName");
+      const score = localStorage.getItem("sessionScore");
 
       console.log("current player:", playerName);
+      console.log("session score:", score);
+      
+      if (score) {
+        setSessionScore(parseInt(score));
+      }
       
 
       const { data, error } = await supabase
@@ -35,52 +42,30 @@ export function ResultScreen() {
     fetchScores();
   }, []);
 
+  return <div className={styles.pageWrapper}>
+    <p className={styles.topSign}>High scores</p>
+    <p className={styles.topSign}>Your score: {sessionScore}</p>
+    <div className={styles.top10}>
+      {Array.from({ length: 10 }).map((_, i) => (
+        <div className={styles.scoreEntry} key={i}>
+          #{i + 1} {scores[i]?.player_name || '-'} - {scores[i]?.score || '-'}
+        </div>
+      ))}
+    </div>
+    <div className={styles.rewards}></div>
 
-return (
-    <main className={styles.container}>
-      <div className={styles.wrapper}>
-        <section className={styles.titlePanel}>
-          <h1>Scoreboard</h1>
-        </section>
+    <div className={styles.hori}>
+      <button
+        className={styles.replay}
+        onClick={() => router.push('/')}>
+        Replay
+      </button>
 
-        <section className={styles.scorePanel}>
-          {Array.from({ length: 10 }).map((_, index) => (
-            <div
-              key={index}
-              className={`${styles.scoreRow} ${
-                index === 4 ? styles.currentPlayerRow : ''
-              }`}
-            >
-              <span>
-                {index + 1}. {scores[index]?.player_name || '-'}
-              </span>
-              <span>{scores[index]?.score ?? '-'}</span>
-            </div>
-          ))}
-        </section>
-
-        <section className={styles.rewardPanel}>
-          <p>5€</p>
-          <div className={styles.stampCircle}></div>
-        </section>
-
-        <section className={styles.buttonPanel}>
-          <button
-            className={styles.playAgainButton}
-            onClick={() => router.push('/')}
-          >
-            Play again
-          </button>
-
-          <button
-            className={styles.exitButton}
-            onClick={() => router.push('/')}
-          >
-            Payout & Exit
-          </button>
-        </section>
-      </div>
-    </main>
-  );
+      <button
+        className={styles.quit}
+        onClick={() => router.push('/')}>
+        Quit
+      </button>
+    </div>
+  </div>;
 }
-
