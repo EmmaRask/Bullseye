@@ -131,33 +131,3 @@
     max-width: 420px;
   }
 }
-
-
-
-/* .container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #0f172a;
-}
-
-
-.card {
-  background: white;
-  color: #0f172a;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-}
-
-.card input {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-}
-
-.button {
-  margin-top: 1rem;
-} */
