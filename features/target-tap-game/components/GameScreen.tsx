@@ -92,7 +92,10 @@ export default function GameScreen() {
       console.error("Error saving score:", error);
     }
 
-    router.push("/result");
+    // Wait 2 seconds before redirecting
+    setTimeout(() => {
+      router.push("/result");
+    }, 2000);
   };
 
   saveScoreAndRedirect();
@@ -156,6 +159,13 @@ export default function GameScreen() {
 
         {/* Moving blue circle */}
         <Crosshair x={circleX} y={circleY} />
+
+        {/* Game over overlay */}
+        {gameOver && (
+          <div className={styles.gameOverOverlay}>
+            Game over! Redirecting...
+          </div>
+        )}
       </div>
 
       <h2 className={styles.resultText} style={{ color: resultColor }}>{result}</h2>
