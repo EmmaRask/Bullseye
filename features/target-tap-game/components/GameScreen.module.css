@@ -12,6 +12,14 @@
   background-color: var(--gameContainerColor);
 }
 
+@media (min-width: 768px) {
+  .gameContainer {
+    transform: scale(1.5);
+    transform-origin: top center;
+    margin-bottom: 16.5rem;
+  }
+}
+
 .gameOverOverlay {
   position: absolute;
   top: 0;
