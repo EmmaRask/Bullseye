@@ -44,7 +44,7 @@ export function StartScreen() {
   }
 
   return (
-    <main className={styles.container}>
+    //<main className={styles.container}>
       <div className={styles.wrapper}>
         <section className={`${styles.panel} ${styles.heroPanel}`}>
           <h1 className={styles.title}>BULLSEYE</h1>
@@ -88,6 +88,6 @@ export function StartScreen() {
           {errorMessage && <p role="alert">{errorMessage}</p>}
         </section>
       </div>
-    </main>
+    //</main>
   );
 }
