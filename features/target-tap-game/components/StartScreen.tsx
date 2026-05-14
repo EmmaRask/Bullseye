@@ -44,7 +44,6 @@ export function StartScreen() {
   }
 
   return (
-    //<main className={styles.container}>
       <div className={styles.wrapper}>
         <section className={`${styles.panel} ${styles.heroPanel}`}>
           <h1 className={styles.title}>BULLSEYE</h1>
@@ -66,8 +65,8 @@ export function StartScreen() {
               targets! Are you a quick enough draw cowboy?
             </p>
 
-          <label htmlFor="playerName">Player name</label>
-          <input
+          <label className={styles.nameLabel} htmlFor="playerName">Player name</label>
+          <input className={styles.nameInput}
             id="playerName"
             type="text"
             value={playerName}
@@ -88,6 +87,5 @@ export function StartScreen() {
           {errorMessage && <p role="alert">{errorMessage}</p>}
         </section>
       </div>
-    //</main>
   );
 }

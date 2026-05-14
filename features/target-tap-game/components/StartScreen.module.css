@@ -71,6 +71,15 @@
   cursor: pointer;
 }
 
+.nameLabel {
+  font-family: var(--displayFont);
+  font-weight: 700;
+}
+
+.nameInput {
+  border: 2px solid black;
+}
+
 .button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
