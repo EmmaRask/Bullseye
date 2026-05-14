@@ -5,19 +5,24 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .panel {
   background-color: var(--gameContainerColor);
   text-align: center;
   width: 90vw;
-  margin: 10px auto;
+  margin-bottom: 2rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
+  flex: 1;
 }
 
 .heroPanel {
+  margin-top: 2rem;
   position: relative;
   display: flex;
   justify-content: center;
@@ -54,7 +59,7 @@
 }
 
 .panel p {
-  margin: 1rem auto;
+  margin: 1rem;
   font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.25;
