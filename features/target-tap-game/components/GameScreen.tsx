@@ -1,21 +1,30 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import styles from './GameScreen.module.css';
-import { CIRCLE_SIZE, CONTAINER_WIDTH, CONTAINER_HEIGHT, BORDER_WIDTH, BUOYANCY, SHOT_COOLDOWN } from '../../../game/config';
-import { GAME_DURATION, LOSE_LIMIT, WIN_LIMIT } from './gameConstants';
+import { TargetBoard } from "./TargetBoard";
+import { ShotMarkers } from "./ShotMarkers";
+import {
+  CIRCLE_SIZE,
+  CONTAINER_WIDTH,
+  CONTAINER_HEIGHT,
+  GAME_DURATION,
+  LOSE_LIMIT,
+  WIN_LIMIT,
+  SHOT_COOLDOWN,
+} from "../../../game/config";
+import { getSessionResult } from "../../../game/result";
 import { targetRandomizer } from '../../../game/targetRandomizer';
+import type { PositionedTarget } from "../../../game/types";
 import { useCirclePhysics } from '../../../hooks/useCirclePhysics';
 import { useShootingLogic } from '../../../hooks/useShootingLogic';
 import { useGamePoints } from '../../../hooks/useGamePoints';
 import { Crosshair } from './Crosshair';
-import { supabase } from '@/lib/supabase';
+import { useSaveScoreAndRedirect } from "../../../hooks/useSaveScoreAndRedirect";
 
 
 export default function GameScreen() {
-  const router = useRouter();
-  const [targets, setTargets] = useState<Array<{ size: number; label: string; x: number; y: number }>>([]);
+  const [targets, setTargets] = useState<PositionedTarget[]>([]);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [gameOver, setGameOver] = useState(false);
   const [sessionScore, setSessionScore] = useState(0);
@@ -24,6 +33,7 @@ export default function GameScreen() {
   const { circleX, circleY } = useCirclePhysics();
   const { totalPoints, addPoints, isHighlighted } = useGamePoints();
   const { result, resultColor, shots, handleClick, flashingTargets } = useShootingLogic(targets, addPoints);
+  
 
   // Initialize targets on mount
   useEffect(() => {
@@ -54,13 +64,7 @@ export default function GameScreen() {
           setSessionScore(totalPoints);
           
           // Determine session result based on score
-          if (totalPoints < LOSE_LIMIT) {
-            setSessionResult('lose');
-          } else if (totalPoints >= WIN_LIMIT) {
-            setSessionResult('win');
-          } else {
-            setSessionResult('replay');
-          }
+         setSessionResult(getSessionResult(totalPoints, LOSE_LIMIT, WIN_LIMIT));
           
           return 0;
         }
@@ -71,35 +75,7 @@ export default function GameScreen() {
     return () => clearInterval(interval);
   }, [gameOver, totalPoints]);
 
-  // Redirect to result page when game over
-  useEffect(() => {
-  if (!gameOver) return;
-
-  const saveScoreAndRedirect = async () => {
-    const playerName = localStorage.getItem("playerName") ?? "Unknown";
-    
-    // Save sessionScore to localStorage
-    localStorage.setItem("sessionScore", sessionScore.toString());
-
-    const { error } = await supabase.from("scores").insert([
-      {
-        player_name: playerName,
-        score: sessionScore,
-      },
-    ]);
-
-    if (error) {
-      console.error("Error saving score:", error);
-    }
-
-    // Wait 2 seconds before redirecting
-    setTimeout(() => {
-      router.push("/result");
-    }, 2000);
-  };
-
-  saveScoreAndRedirect();
-  }, [gameOver, sessionScore, router]);
+  useSaveScoreAndRedirect({ gameOver, sessionScore });
 
   const handleGameClick = () => {
     if (gameOver) return;
@@ -122,40 +98,10 @@ export default function GameScreen() {
         }}
       >
         {/* Targets */}
-        {targets.map((target) => (
-          <div
-            key={target.label}
-            className={`${styles.target} ${flashingTargets.has(target.label) ? styles.flash : ''}`}
-            style={{
-              left: `${target.x}px`,
-              top: `${target.y}px`,
-              width: `${target.size}px`,
-              height: `${target.size}px`,
-            }}
-          >
-            <img
-              src="/bullseye-target.svg"
-              alt="target"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-        ))}
+       <TargetBoard targets={targets} flashingTargets={flashingTargets} />
 
         {/* Shot markers */}
-        {shots.map((shot, i) => (
-          <div
-            key={i}
-            className={styles.shotMarker}
-            style={{
-              left: `${shot.x - 3}px`,
-              top: `${shot.y - 3}px`,
-            }}
-          />
-        ))}
+       <ShotMarkers shots={shots} />
 
         {/* Moving blue circle */}
         <Crosshair x={circleX} y={circleY} />
