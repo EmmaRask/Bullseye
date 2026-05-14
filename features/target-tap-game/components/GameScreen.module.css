@@ -3,6 +3,7 @@
 .pageWrapper {
   background-color: var(--pageBackgroundColor);
   min-height: 100vh;
+  padding-top: calc(2rem - 10px);
 }
 
 .gameContainer {
