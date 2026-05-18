@@ -39,7 +39,6 @@
   font-size: clamp(3rem, 16vw, 5.5rem);
   line-height: 1;
   font-weight: 900;
-  color: #000;
   font-family: var(--displayFont);
 }
 

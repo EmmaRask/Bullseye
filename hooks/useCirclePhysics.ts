@@ -13,11 +13,11 @@ export const useCirclePhysics = () => {
         let vy = velocityRef.current.y;
 
         // Calculate center for buoyancy effect
-        const yCenter = (CONTAINER_HEIGHT - CIRCLE_SIZE - BORDER_WIDTH * 2) / 2;
+        const yCenter = (CONTAINER_HEIGHT) / 2;
         
         // Apply buoyancy force (pulls toward center)
         const yDistance = y - yCenter;
-        const accelY = -BUOYANCY * yDistance / ((CONTAINER_HEIGHT - CIRCLE_SIZE) / 2);
+        const accelY = -BUOYANCY * yDistance / ((CONTAINER_HEIGHT) / 2);
         vy += accelY;
 
         // Apply movement
@@ -32,11 +32,11 @@ export const useCirclePhysics = () => {
         let vx = velocityRef.current.x;
 
         // Calculate center for buoyancy effect
-        const xCenter = (CONTAINER_WIDTH - CIRCLE_SIZE - BORDER_WIDTH * 2) / 2;
+        const xCenter = (CONTAINER_WIDTH) / 2;
         
         // Apply buoyancy force (pulls toward center)
         const xDistance = x - xCenter;
-        const accelX = -BUOYANCY * xDistance / ((CONTAINER_WIDTH - CIRCLE_SIZE) / 2);
+        const accelX = -BUOYANCY * xDistance / ((CONTAINER_WIDTH) / 2);
         vx += accelX;
 
         // Apply movement
