@@ -7,7 +7,14 @@ export const useCirclePhysics = () => {
   const velocityRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    let lastTime = Date.now();
+    let animationId: number;
+
     const animate = () => {
+      const now = Date.now();
+      const deltaTime = (now - lastTime) / 1000; // Convert to seconds
+      lastTime = now;
+
       setCircleY((prev) => {
         let y = prev;
         let vy = velocityRef.current.y;
@@ -18,10 +25,10 @@ export const useCirclePhysics = () => {
         // Apply buoyancy force (pulls toward center)
         const yDistance = y - yCenter;
         const accelY = -BUOYANCY * yDistance / ((CONTAINER_HEIGHT) / 2);
-        vy += accelY;
+        vy += accelY * deltaTime;
 
         // Apply movement
-        y += vy;
+        y += vy * deltaTime;
 
         velocityRef.current = { ...velocityRef.current, y: vy };
         return y;
@@ -37,18 +44,20 @@ export const useCirclePhysics = () => {
         // Apply buoyancy force (pulls toward center)
         const xDistance = x - xCenter;
         const accelX = -BUOYANCY * xDistance / ((CONTAINER_WIDTH) / 2);
-        vx += accelX;
+        vx += accelX * deltaTime;
 
         // Apply movement
-        x += vx;
+        x += vx * deltaTime;
 
         velocityRef.current = { ...velocityRef.current, x: vx };
         return x;
       });
+
+      animationId = requestAnimationFrame(animate);
     };
 
-    const interval = setInterval(animate, 16);
-    return () => clearInterval(interval);
+    animationId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationId);
   }, []);
 
   return { circleX, circleY };
