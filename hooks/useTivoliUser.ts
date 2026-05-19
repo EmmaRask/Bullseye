@@ -27,6 +27,9 @@ export function useTivoliUser() {
           setError('Missing identity token');
           return;
         }
+
+        sessionStorage.setItem('identity_token', token);
+        window.history.replaceState({}, document.title, window.location.pathname);
         
         const response = await fetch('/api/tivoli/identity-token', {
             method: 'POST',
