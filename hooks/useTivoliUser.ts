@@ -13,7 +13,6 @@ type IdentityResponse = {
 
 export function useTivoliUser() {
   const [playerName, setPlayerName] = useState<string>('');
-  const [identityToken, setIdentityToken] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,14 +27,14 @@ export function useTivoliUser() {
           setError('Missing identity token');
           return;
         }
-
-        setIdentityToken(token);
-
-        localStorage.setItem('identity_token', token);
-
-        const response = await fetch(
-          `/api/tivoli/identity-token?token=${token}`
-        );
+        
+        const response = await fetch('/api/tivoli/identity-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token }),
+        });
 
         if (!response.ok) {
           throw new Error('Failed to fetch Tivoli user');
@@ -57,7 +56,6 @@ export function useTivoliUser() {
 
   return {
     playerName,
-    identityToken,
     loading,
     error,
   };
