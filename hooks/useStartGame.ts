@@ -12,7 +12,7 @@ type UseStartGameReturn = {
 };
 
 export function useStartGame(): UseStartGameReturn { useIdentityToken();
-  
+
   const router = useRouter();
 
   const [playerName, setPlayerName] = useState("");
@@ -40,7 +40,7 @@ export function useStartGame(): UseStartGameReturn { useIdentityToken();
 
     const transaction = await createTransaction({
       identity_token: identityToken,
-      amount: 5,
+      amount: 1,
       });
 
       // localStorage.setItem("playerName", playerName.trim());
