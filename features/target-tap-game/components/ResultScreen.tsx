@@ -1,17 +1,17 @@
 'use client';
 
 /**
- * Temporary mock Centralbank integration.
- * Replace localStorage + mock payout when official API is available.
+ * Result screen for completed game session.
+ * Uses Tivoli transaction id for payout when the player wins.
  */
 
-import { useRouter } from 'next/navigation';
 import { payoutTransaction } from '../../../api/centralbankApi';
 import { useResultData } from '../../../hooks/useResultData';
 import styles from './ResultScreen.module.css';
 
+const TIVOLI_FRONTEND_URL = 'https://frontend-main-1ac7.up.railway.app';
+
 export function ResultScreen() {
-  const router = useRouter();
 
   const { scores, sessionScore, stamp, transactionId } = useResultData();
 
@@ -20,7 +20,7 @@ export function ResultScreen() {
 
   async function handlePayout(): Promise<void> {
     if (!hasWon) {
-      router.push('/');
+      window.location.href = TIVOLI_FRONTEND_URL;
       return;
     }
 
@@ -34,7 +34,7 @@ export function ResultScreen() {
         amount: payoutAmount,
       });
 
-      router.push('/');
+      window.location.href = TIVOLI_FRONTEND_URL;
     } catch (error) {
       console.error('Payout failed:', error);
     }
@@ -87,10 +87,6 @@ export function ResultScreen() {
       </div>
 
       <div className={styles.hori}>
-        <button className={styles.replay} onClick={() => router.push('/')}>
-          Replay
-        </button>
-
         <button className={styles.quit} onClick={handlePayout}>
           {hasWon ? 'Payout & Quit' : 'Quit'}
         </button>
