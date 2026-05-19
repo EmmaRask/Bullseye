@@ -29,7 +29,17 @@ export async function POST(request: Request, context: RouteContext) {
     }),
   });
 
-  const data = await response.json();
+  const text = await response.text();
+
+        let data;
+
+    try {
+        data = JSON.parse(text);
+    } catch {
+        data = { error: text };
+    }
+
+    console.log("Tivoli transaction response:", response.status, data);
 
   if (!response.ok) {
     return Response.json(data, { status: response.status });
