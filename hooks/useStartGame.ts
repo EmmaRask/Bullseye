@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createTransaction } from "../api/centralbankApi";
+import { useIdentityToken } from "./useIdentityToken";
 
 type UseStartGameReturn = {
   playerName: string;
@@ -10,7 +11,8 @@ type UseStartGameReturn = {
   handleStartGame: () => Promise<void>;
 };
 
-export function useStartGame(): UseStartGameReturn {
+export function useStartGame(): UseStartGameReturn { useIdentityToken();
+  
   const router = useRouter();
 
   const [playerName, setPlayerName] = useState("");
