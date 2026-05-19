@@ -61,7 +61,15 @@ export function ResultScreen() {
         </p>
 
         <div className={styles.stampCircle}>
-          {stamp ? <span>{stamp}</span> : <span>-</span>}
+         {stamp ? (
+          <span>
+            {typeof stamp === "string"
+              ? stamp
+              : JSON.stringify(stamp)}
+          </span>
+        ) : (
+          <span>-</span>
+        )}
         </div>
       </div>
 
