@@ -8,8 +8,9 @@ type Score = {
 };
 
 type StoredTransaction = {
-  transactionId: string;
-  stamp: string;
+  id?: string;
+  transactionId?: string;
+  stamp: Stamp | string;
 };
 
 type Stamp = {
@@ -45,7 +46,7 @@ export function useResultData() {
         ) as StoredTransaction;
 
         setStamp(parsedTransaction.stamp);
-        setTransactionId(parsedTransaction.transactionId);
+        setTransactionId(parsedTransaction.id ?? parsedTransaction.transactionId ?? '');
       }
 
       const { data, error } = await supabase
