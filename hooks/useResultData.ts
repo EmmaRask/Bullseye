@@ -12,10 +12,22 @@ type StoredTransaction = {
   stamp: string;
 };
 
+type Stamp = {
+  id: number;
+  user_id: number;
+  stamptype_id: number;
+  stamptype: {
+    id: number;
+    animal: string;
+    metal: string | null;
+    image_url: string;
+  };
+};
+
 export function useResultData() {
   const [scores, setScores] = useState<Score[]>([]);
   const [sessionScore, setSessionScore] = useState(0);
-  const [stamp, setStamp] = useState("");
+  const [stamp, setStamp] = useState<string | Stamp>('');
   const [transactionId, setTransactionId] = useState("");
 
   useEffect(() => {

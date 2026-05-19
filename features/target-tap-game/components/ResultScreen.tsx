@@ -61,16 +61,29 @@ export function ResultScreen() {
         </p>
 
         <div className={styles.stampCircle}>
-         {stamp ? (
-          <span>
-            {typeof stamp === "string"
-              ? stamp
-              : JSON.stringify(stamp)}
+          {stamp ? (
+              typeof stamp === 'string' ? (
+              <span>{stamp}</span>
+            ) : (
+            <>
+            <img
+              src={stamp.stamptype.image_url}
+              alt={`${stamp.stamptype.metal ?? ''} ${stamp.stamptype.animal}`}
+              className={styles.stampImage}
+            />
+
+           <span>
+            {stamp.stamptype.metal
+              ? `${stamp.stamptype.metal} `
+              : ''}
+            {stamp.stamptype.animal}
           </span>
+            </>
+          )
         ) : (
           <span>-</span>
         )}
-        </div>
+      </div>
       </div>
 
       <div className={styles.hori}>
