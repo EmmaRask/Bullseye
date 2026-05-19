@@ -1,6 +1,6 @@
 import type {
   CreateTransactionRequest,
-  TransactionResponse,
+  CreateTransactionResponse,
   PayoutRequest,
   PayoutResponse,
 } from "./types";
@@ -28,21 +28,20 @@ function createMockStamp(): string {
 
 export async function mockCreateTransaction(
   transaction: CreateTransactionRequest
-): Promise<TransactionResponse> {
+): Promise<CreateTransactionResponse> {
   console.log("Mock transaction:", transaction);
 
   return {
-    transactionId: createMockId(),
-    stamp: createMockStamp(),
+    id: crypto.randomUUID(),
+    stamp: "gold lion",
+
   };
 }
 
 export async function mockPayoutTransaction(
   payout: PayoutRequest
 ): Promise<PayoutResponse> {
-  console.log("Mock payout:", payout);
-
   return {
-    sucess: true,
+    success: true,
   };
 }

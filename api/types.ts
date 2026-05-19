@@ -1,20 +1,26 @@
-
-export type CreateTransactionRequest = {
-  identityToken: string;
-  amount: number;
-  amusementUuid: string;
+export type IdentityTokenResponse = {
+  user: {
+    id: string;
+    name: string;
+  };
+  expires_at: string;
 };
 
-export type TransactionResponse = {
-  transactionId: string;
+export type CreateTransactionRequest = {
+  identity_token: string;
+  amount: number;
+};
+
+export type CreateTransactionResponse = {
+  id: string;
   stamp: string;
 };
 
 export type PayoutRequest = {
-  transactionId: string;
   amount: number;
 };
 
 export type PayoutResponse = {
-  sucess: boolean;
+  success?: boolean;
 };
+

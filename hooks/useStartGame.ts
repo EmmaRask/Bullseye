@@ -29,11 +29,25 @@ export function useStartGame(): UseStartGameReturn {
 
       localStorage.setItem("playerName", playerName.trim());
 
-      const transaction = await createTransaction({
-        identityToken: "mock-token",
-        amount: 5,
-        amusementUuid: "bullseye",
+      const identityToken = localStorage.getItem("identity_token");
+
+      if (!identityToken) {
+      setErrorMessage("Missing identity token. Please enter through Tivoli.");
+      return;
+      }
+
+    const transaction = await createTransaction({
+      identity_token: identityToken,
+      amount: 5,
       });
+
+      // localStorage.setItem("playerName", playerName.trim());
+
+      // const transaction = await createTransaction({
+      //   identityToken: "mock-token",
+      //   amount: 5,
+      //   amusementUuid: "bullseye",
+      // });
 
       localStorage.setItem("transaction", JSON.stringify(transaction));
 

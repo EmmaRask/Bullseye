@@ -30,8 +30,7 @@ export function ResultScreen() {
     }
 
     try {
-      await payoutTransaction({
-        transactionId,
+      await payoutTransaction(transactionId, {
         amount: payoutAmount,
       });
 
