@@ -2,16 +2,21 @@
 
 import Image from "next/image";
 import { useStartGame } from "../../../hooks/useStartGame";
+import { useTivoliUser } from "../../../hooks/useTivoliUser";
 import styles from "./StartScreen.module.css";
 
 export function StartScreen() {
   const {
-    playerName,
-    setPlayerName,
     isLoading,
     errorMessage,
     handleStartGame,
   } = useStartGame();
+
+  const {
+    playerName,
+    loading,
+    error,
+  } = useTivoliUser();
 
   return (
     <div className={styles.wrapper}>
@@ -32,23 +37,19 @@ export function StartScreen() {
       <section className={styles.panel}>
         <h2>How to play</h2>
 
+        {loading ? (
+          <p>Loading player...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <p>
+            Howdy {playerName}! Got what it takes to win, partner?
+          </p>
+      )}
+
         <p>
-          Ye haaw! Click on the screen or use your keyboard to hit your
-          targets! Are you a quick enough draw, cowboy?
+          Click on the screen or use your keyboard to hit your targets!
         </p>
-
-        <label className={styles.nameLabel} htmlFor="playerName">
-          Player name
-        </label>
-
-        <input
-          className={styles.nameInput}
-          id="playerName"
-          type="text"
-          value={playerName}
-          onChange={(event) => setPlayerName(event.target.value)}
-          placeholder="Enter your name"
-        />
       </section>
 
       <section className={styles.panel}>
