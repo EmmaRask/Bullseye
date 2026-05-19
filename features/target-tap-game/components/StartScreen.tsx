@@ -35,8 +35,7 @@ export function StartScreen() {
       </section>
 
       <section className={styles.panel}>
-        <h2>How to play</h2>
-
+  
         {loading ? (
           <p>Loading player...</p>
         ) : error ? (
@@ -46,9 +45,9 @@ export function StartScreen() {
             Howdy {playerName}! Got what it takes to win, partner?
           </p>
       )}
-
+        <h2>How to play</h2>
         <p>
-          Click on the screen or use your keyboard to hit your targets!
+          Mobile: Click on the screen or use your keyboard on your computer to hit your targets!
         </p>
       </section>
 
