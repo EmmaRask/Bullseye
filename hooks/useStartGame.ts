@@ -33,6 +33,9 @@ export function useStartGame(): UseStartGameReturn {
         amount: 1,
       });
 
+      console.log('Transaction response:', transaction);
+      console.log('Transaction type:', typeof transaction);
+
       // Store transaction data with ID included
       localStorage.setItem("transaction", JSON.stringify({
         ...transaction,
