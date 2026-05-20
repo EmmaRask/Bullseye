@@ -49,9 +49,17 @@ export function useResultData() {
           // Try to parse as JSON first in case it's an object, otherwise use it directly
           let transactionId = '';
           try {
-            const parsed = JSON.parse(storedTransaction) as StoredTransaction;
+            const parsed = JSON.parse(storedTransaction);
             console.log('Parsed as JSON:', parsed);
-            transactionId = parsed.id ?? parsed.transactionId ?? '';
+            console.log('Parsed type:', typeof parsed);
+            
+            // If it parsed to an object with id property, use that
+            if (typeof parsed === 'object' && parsed !== null && 'id' in parsed) {
+              transactionId = parsed.id ?? parsed.transactionId ?? '';
+            } else {
+              // Otherwise, the parsed value IS the ID (it's a number or string)
+              transactionId = String(parsed);
+            }
           } catch {
             // If JSON parse fails, treat the whole value as the ID
             console.log('Failed to parse as JSON, using raw value');
@@ -61,7 +69,7 @@ export function useResultData() {
           console.log('Final extracted transaction ID:', transactionId);
           setTransactionId(transactionId);
         } catch (error) {
-          console.error('Failed to parse transaction:', error);
+          console.error('Failed to process transaction:', error);
         }
       }
 
