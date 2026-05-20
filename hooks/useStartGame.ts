@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createTransaction } from "../api/centralbankApi";
+import { gameSession } from "../game/gameSession";
 
 type UseStartGameReturn = {
   isLoading: boolean;
@@ -33,6 +34,7 @@ export function useStartGame(): UseStartGameReturn {
       });
 
       localStorage.setItem("transaction", JSON.stringify(transaction));
+      gameSession.setTransaction(transaction.id);
 
       router.push("/play");
     } catch {
