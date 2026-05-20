@@ -1,11 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect } from "react";
 import { useStartGame } from "../../../hooks/useStartGame";
 import { useTivoliUser } from "../../../hooks/useTivoliUser";
 import { GameSessionModal } from "./GameSessionModal";
-import { gameSession } from "../../../game/gameSession";
 import styles from "./StartScreen.module.css";
 
 export function StartScreen() {
@@ -20,11 +18,6 @@ export function StartScreen() {
     loading,
     error,
   } = useTivoliUser();
-
-  // Reset game session when landing on start screen
-  useEffect(() => {
-    gameSession.reset();
-  }, []);
 
   return (
     <>
