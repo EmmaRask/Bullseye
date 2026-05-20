@@ -1,3 +1,4 @@
+
 export type GameStatus = 'not_started' | 'playing' | 'finished';
 
 type ModalConfig = {
@@ -30,19 +31,34 @@ export const modalConfig: Record<GameStatus, ModalConfig> = {
 export const gameSession = {
   getStatus(): GameStatus {
     if (typeof window === 'undefined') return 'not_started';
-    const status = localStorage.getItem(GAME_STATUS_KEY);
-    return (status as GameStatus) || 'not_started';
+
+    const status = sessionStorage.getItem(GAME_STATUS_KEY);
+
+    if (
+      status === 'not_started' ||
+      status === 'playing' ||
+      status === 'finished'
+    ) {
+      return status;
+    }
+
+    return 'not_started';
   },
 
   setStatus(status: GameStatus): void {
     if (typeof window === 'undefined') return;
-    localStorage.setItem(GAME_STATUS_KEY, status);
+    sessionStorage.setItem(GAME_STATUS_KEY, status);
   },
 
   hasTransaction(): boolean {
     if (typeof window === 'undefined') return false;
-    return !!localStorage.getItem(TRANSACTION_KEY);
+    return Boolean(sessionStorage.getItem(TRANSACTION_KEY));
   },
+
+  getTransaction(): string | null {
+  if (typeof window === 'undefined') return null;
+  return sessionStorage.getItem(TRANSACTION_KEY);
+},
 
   getModalConfig(): ModalConfig {
     return modalConfig[this.getStatus()];
@@ -58,14 +74,13 @@ export const gameSession = {
 
   reset(): void {
     if (typeof window === 'undefined') return;
-    localStorage.removeItem(GAME_STATUS_KEY);
-    localStorage.removeItem(TRANSACTION_KEY);
+    sessionStorage.removeItem(GAME_STATUS_KEY);
+    sessionStorage.removeItem(TRANSACTION_KEY);
   },
 
-  setTransaction(transactionId: string): void {
-    if (typeof window === 'undefined') return;
-    localStorage.setItem(TRANSACTION_KEY, transactionId);
-    // When transaction is set, update status to 'playing'
-    this.setStatus('playing');
+  setTransaction(transaction: unknown): void {
+  if (typeof window === 'undefined') return;
+  sessionStorage.setItem(TRANSACTION_KEY, JSON.stringify(transaction));
+  this.setStatus('playing');
   },
 };

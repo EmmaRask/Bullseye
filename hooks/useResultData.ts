@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
@@ -5,12 +6,6 @@ type Score = {
   id: string;
   score: number;
   player_name: string;
-};
-
-type StoredTransaction = {
-  id?: string;
-  transactionId?: string;
-  stamp: Stamp | string;
 };
 
 type Stamp = {
@@ -25,47 +20,37 @@ type Stamp = {
   };
 };
 
+type StoredTransaction = {
+  id: string;
+  stamp?: Stamp | string;
+};
+
 export function useResultData() {
   const [scores, setScores] = useState<Score[]>([]);
   const [sessionScore, setSessionScore] = useState(0);
-  const [stamp, setStamp] = useState<string | Stamp>('');
+  const [stamp, setStamp] = useState<string | Stamp>("");
   const [transactionId, setTransactionId] = useState("");
 
   useEffect(() => {
     async function fetchResultData() {
-      const score = localStorage.getItem("sessionScore");
-      const storedTransaction = localStorage.getItem("transaction");
-
-      console.log('Raw storedTransaction from localStorage:', storedTransaction);
-      console.log('Type:', typeof storedTransaction);
+      const score = sessionStorage.getItem("sessionScore");
+      const storedTransaction = sessionStorage.getItem("transaction");
 
       if (score) {
         setSessionScore(Number(score));
       }
 
       if (storedTransaction) {
-        console.log('Raw storedTransaction from localStorage:', storedTransaction);
-        console.log('Type:', typeof storedTransaction);
-        
-        // The transaction should be stored as just the ID string
-        // If it's [object Object], something went wrong with storage
-        if (storedTransaction === '[object Object]') {
-          console.error('ERROR: Transaction stored as [object Object] - clearing it and using fallback');
-          localStorage.removeItem("transaction");
-          
-          // Try to recover from gameSession's TRANSACTION_KEY
-          try {
-            const fallbackTransaction = localStorage.getItem('transaction');
-            if (fallbackTransaction && fallbackTransaction !== '[object Object]') {
-              console.log('Recovered transaction from fallback:', fallbackTransaction);
-              setTransactionId(fallbackTransaction);
-            }
-          } catch {
-            setTransactionId('');
+        try {
+          const transaction: StoredTransaction = JSON.parse(storedTransaction);
+
+          setTransactionId(transaction.id);
+
+          if (transaction.stamp) {
+            setStamp(transaction.stamp);
           }
-        } else {
-          console.log('Final extracted transaction ID:', storedTransaction);
-          setTransactionId(storedTransaction);
+        } catch (error) {
+          console.error("Could not parse stored transaction:", error);
         }
       }
 

@@ -17,8 +17,13 @@ export function useSaveScoreAndRedirect({
     if (!gameOver) return;
 
     async function saveScoreAndRedirect(): Promise<void> {
-      const playerName = localStorage.getItem("playerName") ?? "Unknown";
-      localStorage.setItem("sessionScore", sessionScore.toString());
+      const playerName =
+        sessionStorage.getItem("player_name") ?? "Unknown";
+
+      sessionStorage.setItem(
+        "sessionScore",
+        sessionScore.toString()
+      );
 
       const { error } = await supabase.from("scores").insert([
         {

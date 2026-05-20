@@ -46,6 +46,7 @@ export function useTivoliUser() {
         const data: IdentityResponse = await response.json();
 
         setPlayerName(data.user.name);
+        sessionStorage.setItem('player_name', data.user.name);
       } catch (err) {
         console.error(err);
         setError('Could not load Tivoli user');
