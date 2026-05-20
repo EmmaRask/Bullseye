@@ -35,11 +35,19 @@ export function useStartGame(): UseStartGameReturn {
 
       console.log('Transaction response:', transaction);
       console.log('Transaction type:', typeof transaction);
+      console.log('Transaction keys:', typeof transaction === 'object' ? Object.keys(transaction) : 'N/A');
 
-      // The API returns just the transaction ID as a number or string
-      const transactionId = String(transaction);
+      // The API returns either just the ID or an object with id property
+      let transactionId = '';
+      if (typeof transaction === 'object' && transaction !== null) {
+        transactionId = (transaction as any).id ?? String(transaction);
+      } else {
+        transactionId = String(transaction);
+      }
       
-      // Store transaction ID for later retrieval
+      console.log('Extracted transaction ID:', transactionId);
+      
+      // Store transaction ID for later retrieval (just the ID string, not JSON)
       localStorage.setItem("transaction", transactionId);
       gameSession.setTransaction(transactionId);
 

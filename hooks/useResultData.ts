@@ -44,32 +44,17 @@ export function useResultData() {
       }
 
       if (storedTransaction) {
-        try {
-          // The transaction is stored as just the ID (number or string)
-          // Try to parse as JSON first in case it's an object, otherwise use it directly
-          let transactionId = '';
-          try {
-            const parsed = JSON.parse(storedTransaction);
-            console.log('Parsed as JSON:', parsed);
-            console.log('Parsed type:', typeof parsed);
-            
-            // If it parsed to an object with id property, use that
-            if (typeof parsed === 'object' && parsed !== null && 'id' in parsed) {
-              transactionId = parsed.id ?? parsed.transactionId ?? '';
-            } else {
-              // Otherwise, the parsed value IS the ID (it's a number or string)
-              transactionId = String(parsed);
-            }
-          } catch {
-            // If JSON parse fails, treat the whole value as the ID
-            console.log('Failed to parse as JSON, using raw value');
-            transactionId = storedTransaction;
-          }
-
-          console.log('Final extracted transaction ID:', transactionId);
-          setTransactionId(transactionId);
-        } catch (error) {
-          console.error('Failed to process transaction:', error);
+        console.log('Raw storedTransaction from localStorage:', storedTransaction);
+        console.log('Type:', typeof storedTransaction);
+        
+        // The transaction should be stored as just the ID string
+        // If it's [object Object], something went wrong with storage
+        if (storedTransaction === '[object Object]') {
+          console.error('ERROR: Transaction stored as [object Object] - the ID was lost!');
+          setTransactionId('');
+        } else {
+          console.log('Final extracted transaction ID:', storedTransaction);
+          setTransactionId(storedTransaction);
         }
       }
 
