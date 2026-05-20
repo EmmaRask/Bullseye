@@ -36,6 +36,9 @@ export function useResultData() {
       const score = localStorage.getItem("sessionScore");
       const storedTransaction = localStorage.getItem("transaction");
 
+      console.log('Raw storedTransaction from localStorage:', storedTransaction);
+      console.log('Type:', typeof storedTransaction);
+
       if (score) {
         setSessionScore(Number(score));
       }
@@ -47,13 +50,15 @@ export function useResultData() {
           let transactionId = '';
           try {
             const parsed = JSON.parse(storedTransaction) as StoredTransaction;
+            console.log('Parsed as JSON:', parsed);
             transactionId = parsed.id ?? parsed.transactionId ?? '';
           } catch {
             // If JSON parse fails, treat the whole value as the ID
+            console.log('Failed to parse as JSON, using raw value');
             transactionId = storedTransaction;
           }
 
-          console.log('Extracted transaction ID:', transactionId);
+          console.log('Final extracted transaction ID:', transactionId);
           setTransactionId(transactionId);
         } catch (error) {
           console.error('Failed to parse transaction:', error);
