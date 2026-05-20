@@ -44,18 +44,28 @@ export function useStartGame(): UseStartGameReturn {
         transactionId = String((transaction as any).id);
       } else if (typeof transaction === 'object' && transaction !== null) {
         // It's an object but no id property - this shouldn't happen
-        console.error('Transaction is object but has no id property');
-        transactionId = '';
+        console.error('Transaction is object but has no id property', transaction);
+        setErrorMessage('Transaction failed - invalid response format');
+        return;
       } else {
         // It's a primitive (string or number)
         transactionId = String(transaction);
       }
       
-      console.log('Extracted transaction ID:', transactionId);
+      if (!transactionId) {
+        console.error('Failed to extract transaction ID');
+        setErrorMessage('Transaction failed - could not extract ID');
+        return;
+      }
+      
+      console.log('Extracted transaction ID:', transactionId, 'Type:', typeof transactionId);
       
       // Store transaction ID for later retrieval (just the ID string, not JSON)
-      localStorage.setItem("transaction", transactionId);
-      gameSession.setTransaction(transactionId);
+      // Double-check it's actually a string before storing
+      const toStore = String(transactionId);
+      console.log('About to store:', toStore, 'Type:', typeof toStore);
+      localStorage.setItem("transaction", toStore);
+      gameSession.setTransaction(toStore);
 
       router.push("/play");
     } catch {
