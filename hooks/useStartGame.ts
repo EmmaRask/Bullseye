@@ -33,7 +33,11 @@ export function useStartGame(): UseStartGameReturn {
         amount: 1,
       });
 
-      localStorage.setItem("transaction", JSON.stringify(transaction));
+      // Store transaction data with ID included
+      localStorage.setItem("transaction", JSON.stringify({
+        ...transaction,
+        id: transaction.id,
+      }));
       gameSession.setTransaction(transaction.id);
 
       router.push("/play");
