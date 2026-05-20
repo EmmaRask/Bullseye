@@ -39,9 +39,15 @@ export function useStartGame(): UseStartGameReturn {
 
       // The API returns either just the ID or an object with id property
       let transactionId = '';
-      if (typeof transaction === 'object' && transaction !== null) {
-        transactionId = (transaction as any).id ?? String(transaction);
+      if (typeof transaction === 'object' && transaction !== null && 'id' in transaction) {
+        // It's an object with an id property
+        transactionId = String((transaction as any).id);
+      } else if (typeof transaction === 'object' && transaction !== null) {
+        // It's an object but no id property - this shouldn't happen
+        console.error('Transaction is object but has no id property');
+        transactionId = '';
       } else {
+        // It's a primitive (string or number)
         transactionId = String(transaction);
       }
       

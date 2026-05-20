@@ -50,8 +50,19 @@ export function useResultData() {
         // The transaction should be stored as just the ID string
         // If it's [object Object], something went wrong with storage
         if (storedTransaction === '[object Object]') {
-          console.error('ERROR: Transaction stored as [object Object] - the ID was lost!');
-          setTransactionId('');
+          console.error('ERROR: Transaction stored as [object Object] - clearing it and using fallback');
+          localStorage.removeItem("transaction");
+          
+          // Try to recover from gameSession's TRANSACTION_KEY
+          try {
+            const fallbackTransaction = localStorage.getItem('transaction');
+            if (fallbackTransaction && fallbackTransaction !== '[object Object]') {
+              console.log('Recovered transaction from fallback:', fallbackTransaction);
+              setTransactionId(fallbackTransaction);
+            }
+          } catch {
+            setTransactionId('');
+          }
         } else {
           console.log('Final extracted transaction ID:', storedTransaction);
           setTransactionId(storedTransaction);
