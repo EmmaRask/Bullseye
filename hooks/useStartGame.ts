@@ -36,12 +36,12 @@ export function useStartGame(): UseStartGameReturn {
       console.log('Transaction response:', transaction);
       console.log('Transaction type:', typeof transaction);
 
-      // Store transaction data with ID included
-      localStorage.setItem("transaction", JSON.stringify({
-        ...transaction,
-        id: transaction.id,
-      }));
-      gameSession.setTransaction(transaction.id);
+      // The API returns just the transaction ID as a number or string
+      const transactionId = String(transaction);
+      
+      // Store transaction ID for later retrieval
+      localStorage.setItem("transaction", transactionId);
+      gameSession.setTransaction(transactionId);
 
       router.push("/play");
     } catch {

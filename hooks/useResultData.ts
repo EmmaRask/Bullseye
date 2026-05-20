@@ -42,16 +42,19 @@ export function useResultData() {
 
       if (storedTransaction) {
         try {
-          const parsedTransaction = JSON.parse(
-            storedTransaction
-          ) as StoredTransaction;
+          // The transaction is stored as just the ID (number or string)
+          // Try to parse as JSON first in case it's an object, otherwise use it directly
+          let transactionId = '';
+          try {
+            const parsed = JSON.parse(storedTransaction) as StoredTransaction;
+            transactionId = parsed.id ?? parsed.transactionId ?? '';
+          } catch {
+            // If JSON parse fails, treat the whole value as the ID
+            transactionId = storedTransaction;
+          }
 
-          console.log('Parsed transaction:', parsedTransaction);
-          
-          setStamp(parsedTransaction.stamp || '');
-          const extractedId = parsedTransaction.id ?? parsedTransaction.transactionId ?? '';
-          console.log('Extracted transaction ID:', extractedId);
-          setTransactionId(extractedId);
+          console.log('Extracted transaction ID:', transactionId);
+          setTransactionId(transactionId);
         } catch (error) {
           console.error('Failed to parse transaction:', error);
         }
