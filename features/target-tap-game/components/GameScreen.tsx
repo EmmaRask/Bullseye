@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import styles from './GameScreen.module.css';
+import { GameSessionModal } from './GameSessionModal';
+import { gameSession } from '../../../game/gameSession';
 import { TargetBoard } from "./TargetBoard";
 import { ShotMarkers } from "./ShotMarkers";
 import {
@@ -62,6 +64,7 @@ export default function GameScreen() {
         if (prev <= 1) {
           setGameOver(true);
           setSessionScore(totalPoints);
+          gameSession.finishGame();
           
           // Determine session result based on score
          setSessionResult(getSessionResult(totalPoints, LOSE_LIMIT, WIN_LIMIT));
@@ -88,7 +91,9 @@ export default function GameScreen() {
   };
 
   return (
-    <div className={styles.pageWrapper}>
+    <>
+      <GameSessionModal />
+      <div className={styles.pageWrapper}>
       <div
         onClick={handleGameClick}
         className={styles.gameContainer}
@@ -117,6 +122,7 @@ export default function GameScreen() {
       <h2 className={styles.resultText} style={{ color: resultColor }}>{result}</h2>
       <p className={styles.pointsText} style={{ color: isHighlighted ? 'whitesmoke' : 'inherit' }}>Points: {totalPoints}</p>
       <p className={styles.timerText}>Time: {timeLeft}s</p>
-    </div>
+      </div>
+    </>
   );
 }

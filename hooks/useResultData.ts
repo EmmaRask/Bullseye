@@ -41,12 +41,16 @@ export function useResultData() {
       }
 
       if (storedTransaction) {
-        const parsedTransaction = JSON.parse(
-          storedTransaction
-        ) as StoredTransaction;
+        try {
+          const parsedTransaction = JSON.parse(
+            storedTransaction
+          ) as StoredTransaction;
 
-        setStamp(parsedTransaction.stamp);
-        setTransactionId(parsedTransaction.id ?? parsedTransaction.transactionId ?? '');
+          setStamp(parsedTransaction.stamp || '');
+          setTransactionId(parsedTransaction.id ?? parsedTransaction.transactionId ?? '');
+        } catch (error) {
+          console.error('Failed to parse transaction:', error);
+        }
       }
 
       const { data, error } = await supabase

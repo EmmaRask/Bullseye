@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useStartGame } from "../../../hooks/useStartGame";
 import { useTivoliUser } from "../../../hooks/useTivoliUser";
+import { GameSessionModal } from "./GameSessionModal";
 import styles from "./StartScreen.module.css";
 
 export function StartScreen() {
@@ -19,7 +20,9 @@ export function StartScreen() {
   } = useTivoliUser();
 
   return (
-    <div className={styles.wrapper}>
+    <>
+      <GameSessionModal />
+      <div className={styles.wrapper}>
       <section className={`${styles.panel} ${styles.heroPanel}`}>
         <h1 className={styles.title}>BULLSEYE</h1>
 
@@ -62,6 +65,7 @@ export function StartScreen() {
 
         {errorMessage && <p role="alert">{errorMessage}</p>}
       </section>
-    </div>
+      </div>
+    </>
   );
 }

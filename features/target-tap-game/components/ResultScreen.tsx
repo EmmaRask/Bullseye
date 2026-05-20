@@ -7,12 +7,13 @@
 
 import { payoutTransaction } from '../../../api/centralbankApi';
 import { useResultData } from '../../../hooks/useResultData';
+import { gameSession } from '../../../game/gameSession';
+import { GameSessionModal } from './GameSessionModal';
 import styles from './ResultScreen.module.css';
 
 const TIVOLI_FRONTEND_URL = 'https://frontend-main-1ac7.up.railway.app';
 
 export function ResultScreen() {
-
   const { scores, sessionScore, stamp, transactionId } = useResultData();
 
   const hasWon = sessionScore >= 100;
@@ -20,6 +21,7 @@ export function ResultScreen() {
 
   async function handlePayout(): Promise<void> {
     if (!hasWon) {
+      gameSession.reset();
       window.location.href = TIVOLI_FRONTEND_URL;
       return;
     }
@@ -34,6 +36,7 @@ export function ResultScreen() {
         amount: payoutAmount,
       });
 
+      gameSession.reset();
       window.location.href = TIVOLI_FRONTEND_URL;
     } catch (error) {
       console.error('Payout failed:', error);
@@ -41,7 +44,9 @@ export function ResultScreen() {
   }
 
   return (
-    <div className={styles.pageWrapper}>
+    <>
+      <GameSessionModal />
+      <div className={styles.pageWrapper}>
       <p className={styles.topSign}>High scores</p>
 
       <p className={styles.topSign}>Your score: {sessionScore}</p>
@@ -91,6 +96,7 @@ export function ResultScreen() {
           {hasWon ? 'Payout & Quit' : 'Quit'}
         </button>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
