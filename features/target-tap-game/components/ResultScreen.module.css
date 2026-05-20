@@ -40,6 +40,9 @@
     font-family: var(--displayFont);
     padding: 10px;
     flex: 1;
+    border: none;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 .hori {
