@@ -46,8 +46,12 @@ export function useResultData() {
             storedTransaction
           ) as StoredTransaction;
 
+          console.log('Parsed transaction:', parsedTransaction);
+          
           setStamp(parsedTransaction.stamp || '');
-          setTransactionId(parsedTransaction.id ?? parsedTransaction.transactionId ?? '');
+          const extractedId = parsedTransaction.id ?? parsedTransaction.transactionId ?? '';
+          console.log('Extracted transaction ID:', extractedId);
+          setTransactionId(extractedId);
         } catch (error) {
           console.error('Failed to parse transaction:', error);
         }
