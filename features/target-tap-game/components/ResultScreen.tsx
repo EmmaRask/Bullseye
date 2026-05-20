@@ -72,7 +72,7 @@ export function ResultScreen() {
             ) : (
             <>
             <img
-              src={stamp.stamptype.image_url}
+              src={stamp.stamptype.image_url.replace('http://', 'https://')}
               alt={`${stamp.stamptype.metal ?? ''} ${stamp.stamptype.animal}`}
               className={styles.stampImage}
             />
