@@ -32,41 +32,36 @@ type GameState = {
   timeLeft: number;
 };
 
-const getInitialGameState = (): GameState => {
-  if (typeof window === 'undefined') return { sessionScore: 0, timeLeft: GAME_DURATION };
-  
-  const saved = localStorage.getItem(GAME_STATE_KEY);
-  if (saved) {
-    try {
-      const gameState = JSON.parse(saved);
-      console.log('Game state initialized from localStorage:', gameState);
-      return gameState;
-    } catch (e) {
-      console.error('Failed to parse saved game state:', e);
-    }
-  }
-  return { sessionScore: 0, timeLeft: GAME_DURATION };
-};
-
 export default function GameScreen() {
   const [targets, setTargets] = useState<PositionedTarget[]>([]);
-  const [sessionScore, setSessionScore] = useState<number>(() => {
-    const initialState = getInitialGameState();
-    console.log('Game state initialized from localStorage:', initialState);
-    return initialState.sessionScore;
-  });
-  const [timeLeft, setTimeLeft] = useState<number>(() => {
-    const initialState = getInitialGameState();
-    return initialState.timeLeft;
-  });
+  const [sessionScore, setSessionScore] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [gameOver, setGameOver] = useState(false);
   const [sessionResult, setSessionResult] = useState<'lose' | 'replay' | 'win' | null>(null);
   const [lastShotTime, setLastShotTime] = useState(0);
-  const [isRestored, setIsRestored] = useState(true);
+  const [isRestored, setIsRestored] = useState(false);
   const { circleX, circleY } = useCirclePhysics();
   const { totalPoints, addPoints, isHighlighted } = useGamePoints();
   const { result, resultColor, shots, handleClick, flashingTargets } = useShootingLogic(targets, addPoints);
   
+
+  // Restore game state from localStorage after hydration
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const saved = localStorage.getItem(GAME_STATE_KEY);
+    if (saved) {
+      try {
+        const gameState: GameState = JSON.parse(saved);
+        console.log('Game state restored from localStorage:', gameState);
+        setSessionScore(gameState.sessionScore);
+        setTimeLeft(gameState.timeLeft);
+      } catch (e) {
+        console.error('Failed to parse saved game state:', e);
+      }
+    }
+    setIsRestored(true);
+  }, []);
 
   // Initialize targets on mount
   useEffect(() => {
