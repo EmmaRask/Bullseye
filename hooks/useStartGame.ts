@@ -38,6 +38,8 @@ export function useStartGame(): UseStartGameReturn {
         return;
       }
 
+      sessionStorage.setItem("transaction", JSON.stringify(transaction));
+
       gameSession.setTransaction(
         String(transaction.transaction_id)
       );

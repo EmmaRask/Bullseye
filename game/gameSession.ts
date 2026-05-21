@@ -8,7 +8,7 @@ type ModalConfig = {
 };
 
 const GAME_STATUS_KEY = 'game_status';
-const TRANSACTION_KEY = 'transaction';
+const TRANSACTION_KEY = 'transaction_id';
 
 export const modalConfig: Record<GameStatus, ModalConfig> = {
   not_started: {
