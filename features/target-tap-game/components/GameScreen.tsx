@@ -45,15 +45,15 @@ export default function GameScreen() {
   const { result, resultColor, shots, handleClick, flashingTargets } = useShootingLogic(targets, addPoints);
   
 
-  // Restore game state from localStorage after hydration
+  // Restore game state from sessionStorage after hydration
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const saved = localStorage.getItem(GAME_STATE_KEY);
+    const saved = sessionStorage.getItem(GAME_STATE_KEY);
     if (saved) {
       try {
         const gameState: GameState = JSON.parse(saved);
-        console.log('Game state restored from localStorage:', gameState);
+        console.log('Game state restored from sessionStorage:', gameState);
         setSessionScore(gameState.sessionScore);
         setTimeLeft(gameState.timeLeft);
       } catch (e) {
@@ -86,8 +86,8 @@ export default function GameScreen() {
     if (typeof window === 'undefined' || gameOver || !isRestored) return;
     
     const gameState: GameState = { sessionScore, timeLeft };
-    localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState));
-    console.log('Game state saved to localStorage:', gameState);
+    sessionStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState));
+    console.log('Game state saved to sessionStorage:', gameState);
   }, [sessionScore, timeLeft, gameOver, isRestored]);
 
   // Sync session score with total points during gameplay (only after player shoots)
@@ -111,8 +111,8 @@ export default function GameScreen() {
           
           // Clear saved game state on game end
           if (typeof window !== 'undefined') {
-            localStorage.removeItem(GAME_STATE_KEY);
-            console.log('Cleared game_state from localStorage');
+            sessionStorage.removeItem(GAME_STATE_KEY);
+            console.log('Cleared game_state from sessionStorage');
           }
           
           // Determine session result based on score

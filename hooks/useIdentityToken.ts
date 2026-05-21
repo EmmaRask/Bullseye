@@ -7,7 +7,7 @@ export function useIdentityToken(): void {
 
     if (!token) return;
 
-    localStorage.setItem("identity_token", token);
+    sessionStorage.setItem("identity_token", token);
 
     window.history.replaceState({}, document.title, window.location.pathname);
   }, []);
