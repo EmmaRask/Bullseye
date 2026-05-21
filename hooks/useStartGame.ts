@@ -38,7 +38,9 @@ export function useStartGame(): UseStartGameReturn {
         return;
       }
 
-      gameSession.setTransaction(transaction);
+      gameSession.setTransaction(
+        String(transaction.transaction_id)
+      );
       gameSession.startGame();
 
       router.push("/play");
