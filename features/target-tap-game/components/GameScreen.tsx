@@ -49,11 +49,17 @@ const getInitialGameState = (): GameState => {
 };
 
 export default function GameScreen() {
-  const initialState = getInitialGameState();
   const [targets, setTargets] = useState<PositionedTarget[]>([]);
-  const [timeLeft, setTimeLeft] = useState(initialState.timeLeft);
+  const [sessionScore, setSessionScore] = useState<number>(() => {
+    const initialState = getInitialGameState();
+    console.log('Game state initialized from localStorage:', initialState);
+    return initialState.sessionScore;
+  });
+  const [timeLeft, setTimeLeft] = useState<number>(() => {
+    const initialState = getInitialGameState();
+    return initialState.timeLeft;
+  });
   const [gameOver, setGameOver] = useState(false);
-  const [sessionScore, setSessionScore] = useState(initialState.sessionScore);
   const [sessionResult, setSessionResult] = useState<'lose' | 'replay' | 'win' | null>(null);
   const [lastShotTime, setLastShotTime] = useState(0);
   const [isRestored, setIsRestored] = useState(true);
