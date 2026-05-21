@@ -25,6 +25,8 @@ export function useSaveScoreAndRedirect({
         sessionScore.toString()
       );
 
+      console.log('Score saved to sessionStorage:', sessionScore);
+
       const { error } = await supabase.from("scores").insert([
         {
           player_name: playerName,

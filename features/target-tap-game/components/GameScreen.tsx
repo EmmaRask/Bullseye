@@ -87,11 +87,13 @@ export default function GameScreen() {
     
     const gameState: GameState = { sessionScore, timeLeft };
     localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState));
+    console.log('Game state saved to localStorage:', gameState);
   }, [sessionScore, timeLeft, gameOver]);
 
   // Sync session score with total points during gameplay
   useEffect(() => {
     if (gameOver || !isRestored) return;
+    console.log('Syncing sessionScore with totalPoints:', totalPoints);
     setSessionScore(totalPoints);
   }, [totalPoints, gameOver, isRestored]);
 
@@ -102,6 +104,7 @@ export default function GameScreen() {
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
+          console.log('Game ending with score:', totalPoints);
           setGameOver(true);
           setSessionScore(totalPoints);
           gameSession.finishGame();
@@ -109,6 +112,7 @@ export default function GameScreen() {
           // Clear saved game state on game end
           if (typeof window !== 'undefined') {
             localStorage.removeItem(GAME_STATE_KEY);
+            console.log('Cleared game_state from localStorage');
           }
           
           // Determine session result based on score
