@@ -32,36 +32,35 @@ type GameState = {
   timeLeft: number;
 };
 
+const getInitialGameState = (): GameState => {
+  if (typeof window === 'undefined') return { sessionScore: 0, timeLeft: GAME_DURATION };
+  
+  const saved = localStorage.getItem(GAME_STATE_KEY);
+  if (saved) {
+    try {
+      const gameState = JSON.parse(saved);
+      console.log('Game state initialized from localStorage:', gameState);
+      return gameState;
+    } catch (e) {
+      console.error('Failed to parse saved game state:', e);
+    }
+  }
+  return { sessionScore: 0, timeLeft: GAME_DURATION };
+};
+
 export default function GameScreen() {
+  const initialState = getInitialGameState();
   const [targets, setTargets] = useState<PositionedTarget[]>([]);
-  const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
+  const [timeLeft, setTimeLeft] = useState(initialState.timeLeft);
   const [gameOver, setGameOver] = useState(false);
-  const [sessionScore, setSessionScore] = useState(0);
+  const [sessionScore, setSessionScore] = useState(initialState.sessionScore);
   const [sessionResult, setSessionResult] = useState<'lose' | 'replay' | 'win' | null>(null);
   const [lastShotTime, setLastShotTime] = useState(0);
-  const [isRestored, setIsRestored] = useState(false);
+  const [isRestored, setIsRestored] = useState(true);
   const { circleX, circleY } = useCirclePhysics();
   const { totalPoints, addPoints, isHighlighted } = useGamePoints();
   const { result, resultColor, shots, handleClick, flashingTargets } = useShootingLogic(targets, addPoints);
   
-
-  // Restore game state from localStorage on mount
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
-    const saved = localStorage.getItem(GAME_STATE_KEY);
-    if (saved) {
-      try {
-        const gameState: GameState = JSON.parse(saved);
-        setSessionScore(gameState.sessionScore);
-        setTimeLeft(gameState.timeLeft);
-        console.log('Game state restored:', gameState);
-      } catch (e) {
-        console.error('Failed to restore game state:', e);
-      }
-    }
-    setIsRestored(true);
-  }, []);
 
   // Initialize targets on mount
   useEffect(() => {
