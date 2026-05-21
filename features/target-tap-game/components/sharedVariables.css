@@ -4,3 +4,14 @@
   --highlightColor: #ffeb00;
   --displayFont: var(--font-wellfleet);
 }
+/* Accessibility defaults
+
+button {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+button:focus-visible {
+  outline: 4px solid #0e0e2c;
+  outline-offset: 4px;
+} */

@@ -6,14 +6,21 @@ export type IdentityTokenResponse = {
   expires_at: string;
 };
 
+export type Stamp = {
+  animal: string;
+  metal: string | null;
+  image_url: string;
+};
+
 export type CreateTransactionRequest = {
   identity_token: string;
   amount: number;
 };
 
 export type CreateTransactionResponse = {
-  id: string;
-  stamp: string;
+  transaction_id: number;
+  amount: number;
+  stamp: Stamp | null;
 };
 
 export type PayoutRequest = {
@@ -21,6 +28,6 @@ export type PayoutRequest = {
 };
 
 export type PayoutResponse = {
-  success?: boolean;
+  transaction_id: number;
+  amount: number;
 };
-

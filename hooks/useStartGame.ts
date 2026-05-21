@@ -33,12 +33,16 @@ export function useStartGame(): UseStartGameReturn {
         amount: 1,
       });
 
-      if (!transaction.id) {
+      if (!transaction.transaction_id) {
         setErrorMessage("Transaction failed. Please try again.");
         return;
       }
 
-      gameSession.setTransaction(transaction);
+      sessionStorage.setItem("transaction", JSON.stringify(transaction));
+
+      gameSession.setTransaction(
+        String(transaction.transaction_id)
+      );
       gameSession.startGame();
 
       router.push("/play");
