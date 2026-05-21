@@ -81,18 +81,18 @@ export default function GameScreen() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [gameOver, circleX, circleY]);
 
-  // Save game state whenever score or time changes
+  // Save game state whenever score or time changes (but NOT on initial restore)
   useEffect(() => {
-    if (typeof window === 'undefined' || gameOver) return;
+    if (typeof window === 'undefined' || gameOver || !isRestored) return;
     
     const gameState: GameState = { sessionScore, timeLeft };
     localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState));
     console.log('Game state saved to localStorage:', gameState);
-  }, [sessionScore, timeLeft, gameOver]);
+  }, [sessionScore, timeLeft, gameOver, isRestored]);
 
-  // Sync session score with total points during gameplay
+  // Sync session score with total points during gameplay (only after player shoots)
   useEffect(() => {
-    if (gameOver || !isRestored) return;
+    if (gameOver || !isRestored || totalPoints === 0) return;
     console.log('Syncing sessionScore with totalPoints:', totalPoints);
     setSessionScore(totalPoints);
   }, [totalPoints, gameOver, isRestored]);
