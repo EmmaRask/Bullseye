@@ -33,7 +33,7 @@ export function useStartGame(): UseStartGameReturn {
         amount: 1,
       });
 
-      if (!transaction.id) {
+      if (!transaction.transaction_id) {
         setErrorMessage("Transaction failed. Please try again.");
         return;
       }
