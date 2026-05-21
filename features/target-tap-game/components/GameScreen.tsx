@@ -25,6 +25,13 @@ import { Crosshair } from './Crosshair';
 import { useSaveScoreAndRedirect } from "../../../hooks/useSaveScoreAndRedirect";
 
 
+const GAME_STATE_KEY = 'game_state';
+
+type GameState = {
+  sessionScore: number;
+  timeLeft: number;
+};
+
 export default function GameScreen() {
   const [targets, setTargets] = useState<PositionedTarget[]>([]);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
@@ -32,10 +39,29 @@ export default function GameScreen() {
   const [sessionScore, setSessionScore] = useState(0);
   const [sessionResult, setSessionResult] = useState<'lose' | 'replay' | 'win' | null>(null);
   const [lastShotTime, setLastShotTime] = useState(0);
+  const [isRestored, setIsRestored] = useState(false);
   const { circleX, circleY } = useCirclePhysics();
   const { totalPoints, addPoints, isHighlighted } = useGamePoints();
   const { result, resultColor, shots, handleClick, flashingTargets } = useShootingLogic(targets, addPoints);
   
+
+  // Restore game state from localStorage on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const saved = localStorage.getItem(GAME_STATE_KEY);
+    if (saved) {
+      try {
+        const gameState: GameState = JSON.parse(saved);
+        setSessionScore(gameState.sessionScore);
+        setTimeLeft(gameState.timeLeft);
+        console.log('Game state restored:', gameState);
+      } catch (e) {
+        console.error('Failed to restore game state:', e);
+      }
+    }
+    setIsRestored(true);
+  }, []);
 
   // Initialize targets on mount
   useEffect(() => {
@@ -55,6 +81,20 @@ export default function GameScreen() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [gameOver, circleX, circleY]);
 
+  // Save game state whenever score or time changes
+  useEffect(() => {
+    if (typeof window === 'undefined' || gameOver) return;
+    
+    const gameState: GameState = { sessionScore, timeLeft };
+    localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState));
+  }, [sessionScore, timeLeft, gameOver]);
+
+  // Sync session score with total points during gameplay
+  useEffect(() => {
+    if (gameOver) return;
+    setSessionScore(totalPoints);
+  }, [totalPoints, gameOver]);
+
   // Timer effect
   useEffect(() => {
     if (gameOver) return;
@@ -65,6 +105,11 @@ export default function GameScreen() {
           setGameOver(true);
           setSessionScore(totalPoints);
           gameSession.finishGame();
+          
+          // Clear saved game state on game end
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem(GAME_STATE_KEY);
+          }
           
           // Determine session result based on score
          setSessionResult(getSessionResult(totalPoints, LOSE_LIMIT, WIN_LIMIT));
