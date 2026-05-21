@@ -41,7 +41,7 @@ export default function GameScreen() {
   const [lastShotTime, setLastShotTime] = useState(0);
   const [isRestored, setIsRestored] = useState(false);
   const { circleX, circleY } = useCirclePhysics();
-  const { totalPoints, addPoints, isHighlighted } = useGamePoints();
+  const { totalPoints, addPoints, isHighlighted } = useGamePoints(sessionScore);
   const { result, resultColor, shots, handleClick, flashingTargets } = useShootingLogic(targets, addPoints);
   
 

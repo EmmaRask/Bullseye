@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import { POINTS_MAP } from "../game/config";
 
-export const useGamePoints = () => {
-  const [totalPoints, setTotalPoints] = useState(0);
+export const useGamePoints = (initialScore: number = 0) => {
+  const [totalPoints, setTotalPoints] = useState(initialScore);
   const [isHighlighted, setIsHighlighted] = useState(false);
 
   const addPoints = useCallback((targetLabel: string) => {
