@@ -91,9 +91,9 @@ export default function GameScreen() {
 
   // Sync session score with total points during gameplay
   useEffect(() => {
-    if (gameOver) return;
+    if (gameOver || !isRestored) return;
     setSessionScore(totalPoints);
-  }, [totalPoints, gameOver]);
+  }, [totalPoints, gameOver, isRestored]);
 
   // Timer effect
   useEffect(() => {
@@ -165,7 +165,7 @@ export default function GameScreen() {
       </div>
 
       <h2 className={styles.resultText} style={{ color: resultColor }}>{result}</h2>
-      <p className={styles.pointsText} style={{ color: isHighlighted ? 'whitesmoke' : 'inherit' }}>Points: {totalPoints}</p>
+      <p className={styles.pointsText} style={{ color: isHighlighted ? 'whitesmoke' : 'inherit' }}>Points: {sessionScore}</p>
       <p className={styles.timerText}>Time: {timeLeft}s</p>
       </div>
     </>
