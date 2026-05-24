@@ -24,7 +24,7 @@ export async function createTransaction(
 }
 
 export async function payoutTransaction(
-  transactionId: string,
+  transactionId: number | string,
   payout: PayoutRequest
 ): Promise<PayoutResponse> {
   const response = await fetch(`/api/tivoli/transactions/${transactionId}/payout`, {

@@ -8,7 +8,7 @@ type ModalConfig = {
 };
 
 const GAME_STATUS_KEY = 'game_status';
-const TRANSACTION_KEY = 'transaction';
+const TRANSACTION_KEY = 'transaction_id';
 
 export const modalConfig: Record<GameStatus, ModalConfig> = {
   not_started: {
@@ -78,9 +78,10 @@ export const gameSession = {
     sessionStorage.removeItem(TRANSACTION_KEY);
   },
 
-  setTransaction(transaction: unknown): void {
+setTransaction(transactionId: string): void {
   if (typeof window === 'undefined') return;
-  sessionStorage.setItem(TRANSACTION_KEY, JSON.stringify(transaction));
+
+  sessionStorage.setItem(TRANSACTION_KEY, transactionId);
   this.setStatus('playing');
-  },
+},
 };

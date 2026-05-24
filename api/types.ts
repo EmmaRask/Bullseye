@@ -11,10 +11,6 @@ export type CreateTransactionRequest = {
   amount: number;
 };
 
-export type PayoutRequest = {
-  amount: number;
-};
-
 export type Stamp = {
   animal: string;
   metal: string | null;
@@ -25,6 +21,10 @@ export type CreateTransactionResponse = {
   transaction_id: number;
   amount: number;
   stamp: Stamp | null;
+};
+
+export type PayoutRequest = {
+  amount: number;
 };
 
 export type PayoutResponse = {

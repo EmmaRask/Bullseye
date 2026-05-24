@@ -11,7 +11,7 @@ import { gameSession } from '../../../game/gameSession';
 import { GameSessionModal } from './GameSessionModal';
 import styles from './ResultScreen.module.css';
 
-const TIVOLI_FRONTEND_URL = 'https://frontend-main-1ac7.up.railway.app';
+const TIVOLI_FRONTEND_URL = 'https://loopland.se';
 
 export function ResultScreen() {
   const { scores, sessionScore, stamp, transactionId } = useResultData();
@@ -85,10 +85,10 @@ export function ResultScreen() {
             />
 
            <span>
-            {stamp.stamptype.metal
-              ? `${stamp.stamptype.metal} `
+            {stamp.metal
+              ? `${stamp.metal} `
               : ''}
-            {stamp.stamptype.animal}
+            {stamp.animal}
           </span>
             </>
           )

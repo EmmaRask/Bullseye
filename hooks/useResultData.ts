@@ -9,20 +9,15 @@ type Score = {
 };
 
 type Stamp = {
-  id: number;
-  user_id: number;
-  stamptype_id: number;
-  stamptype: {
-    id: number;
-    animal: string;
-    metal: string | null;
-    image_url: string;
-  };
+  animal: string;
+  metal: string | null;
+  image_url: string;
 };
 
 type StoredTransaction = {
-  id: string;
-  stamp?: Stamp | string;
+  transaction_id: number;
+  amount: number;
+  stamp: Stamp | null;
 };
 
 export function useResultData() {
@@ -44,7 +39,7 @@ export function useResultData() {
         try {
           const transaction: StoredTransaction = JSON.parse(storedTransaction);
 
-          setTransactionId(transaction.id);
+          setTransactionId(String(transaction.transaction_id));
 
           if (transaction.stamp) {
             setStamp(transaction.stamp);
