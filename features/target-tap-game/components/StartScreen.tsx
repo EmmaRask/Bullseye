@@ -50,7 +50,9 @@ export function StartScreen() {
       )}
         <h2>How to play</h2>
         <p>
-          Mobile: Click on the screen or use your keyboard on your computer to hit your targets!
+          Mobile: Click on the screen to shoot at the targets throu your moving crosshair! 
+          <br/>
+          Use computer? no worries parner! Just use your spacebar on your computer to hit your targets, same moving crosshair will test your skills!
         </p>
       </section>
 
