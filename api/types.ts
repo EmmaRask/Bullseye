@@ -11,16 +11,23 @@ export type CreateTransactionRequest = {
   amount: number;
 };
 
-export type CreateTransactionResponse = {
-  id: string;
-  stamp: string;
-};
-
 export type PayoutRequest = {
   amount: number;
 };
 
-export type PayoutResponse = {
-  success?: boolean;
+export type Stamp = {
+  animal: string;
+  metal: string | null;
+  image_url: string;
 };
 
+export type CreateTransactionResponse = {
+  transaction_id: number;
+  amount: number;
+  stamp: Stamp | null;
+};
+
+export type PayoutResponse = {
+  transaction_id: number;
+  amount: number;
+};
