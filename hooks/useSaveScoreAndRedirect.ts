@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { gameSession } from "@/game/gameSession";
 
 type Params = {
   gameOver: boolean;
@@ -17,23 +17,30 @@ export function useSaveScoreAndRedirect({
     if (!gameOver) return;
 
     async function saveScoreAndRedirect(): Promise<void> {
-      const playerName =
-        sessionStorage.getItem("player_name") ?? "Unknown";
+      const playerName = sessionStorage.getItem("player_name") ?? "Unknown";
+      const transactionId = gameSession.getTransaction();
 
-      sessionStorage.setItem(
-        "sessionScore",
-        sessionScore.toString()
-      );
+      sessionStorage.setItem("sessionScore", sessionScore.toString());
 
-      const { error } = await supabase.from("scores").insert([
-        {
-          player_name: playerName,
-          score: sessionScore,
-        },
-      ]);
+      if (!transactionId) {
+        console.error("Missing transaction id when saving score");
+      } else {
+        const response = await fetch("/api/scores", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            player_name: playerName,
+            score: sessionScore,
+            transaction_id: transactionId,
+          }),
+        });
 
-      if (error) {
-        console.error("Error saving score:", error);
+        if (!response.ok) {
+          const error = await response.json();
+          console.error("Error saving score:", error);
+        }
       }
 
       setTimeout(() => {
