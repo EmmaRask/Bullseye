@@ -19,10 +19,17 @@ export function ResultScreen() {
   const hasWon = sessionScore >= 100;
   const payoutAmount = hasWon ? 5 : 0;
 
+  function closeAmusement(): void {
+    window.parent.postMessage(
+      { type: "AMUSEMENT_CLOSE" },
+      "https://loopland.se"
+    );
+  }
+
   async function handlePayout(): Promise<void> {
     if (!hasWon) {
       gameSession.reset();
-      window.location.href = TIVOLI_FRONTEND_URL;
+      closeAmusement();
       return;
     }
 
@@ -37,7 +44,7 @@ export function ResultScreen() {
       });
 
       gameSession.reset();
-      window.location.href = TIVOLI_FRONTEND_URL;
+      closeAmusement();
     } catch (error) {
       console.error('Payout failed:', error);
     }

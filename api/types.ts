@@ -6,15 +6,15 @@ export type IdentityTokenResponse = {
   expires_at: string;
 };
 
+export type CreateTransactionRequest = {
+  identity_token: string;
+  amount: number;
+};
+
 export type Stamp = {
   animal: string;
   metal: string | null;
   image_url: string;
-};
-
-export type CreateTransactionRequest = {
-  identity_token: string;
-  amount: number;
 };
 
 export type CreateTransactionResponse = {
