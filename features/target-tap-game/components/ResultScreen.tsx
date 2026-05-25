@@ -35,39 +35,54 @@ export function ResultScreen() {
       Date.now() - replayWindowStartedAt < REPLAY_WINDOW_MS
   );
   }, []);
-  
-  
 
+  useEffect(() => {
+  if (!hasWon || !transactionId) return;
+
+  const stored = sessionStorage.getItem("winning_transaction_ids");
+  const winningIds: string[] = stored ? JSON.parse(stored) : [];
+
+  if (!winningIds.includes(transactionId)) {
+    winningIds.push(transactionId);
+    sessionStorage.setItem(
+      "winning_transaction_ids",
+      JSON.stringify(winningIds)
+    );
+  }
+}, [hasWon, transactionId]);
+  
   function closeAmusement(): void {
     window.parent.postMessage(
       { type: "AMUSEMENT_CLOSE" },
       "https://loopland.se"
     );
   }
-
+  
   async function handlePayout(): Promise<void> {
-    
-    if (!hasWon) {
-      gameSession.reset();
-      closeAmusement();
-      return;
-    }
+  const stored = sessionStorage.getItem("winning_transaction_ids");
+  const winningIds: string[] = stored ? JSON.parse(stored) : [];
 
-    if (!transactionId) {
-      console.log('No transaction id found');
-      return;
-    }
+  if (winningIds.length === 0) {
+    gameSession.reset();
+    closeAmusement();
+    return;
+  }
 
-    try {
-      await payoutTransaction(transactionId, {
-        amount: payoutAmount,
-      });
+  try {
+    await Promise.all(
+      winningIds.map((id) =>
+        payoutTransaction(id, {
+          amount: PAYOUT_AMOUNT,
+        })
+      )
+    );
 
-      gameSession.reset();
-      closeAmusement();
-    } catch (error) {
-      console.error('Payout failed:', error);
-    }
+    sessionStorage.removeItem("winning_transaction_ids");
+    gameSession.reset();
+    closeAmusement();
+  } catch (error) {
+    console.error("Payout failed:", error);
+  }
   }
 
   async function handleReplay(): Promise<void> {

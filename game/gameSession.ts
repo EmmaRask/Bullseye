@@ -77,6 +77,7 @@ export const gameSession = {
     sessionStorage.removeItem(GAME_STATUS_KEY);
     sessionStorage.removeItem(TRANSACTION_KEY);
     sessionStorage.removeItem("replay_window_started_at");
+    sessionStorage.removeItem("winning_transaction_ids");
   },
 
 setTransaction(transactionId: string): void {
