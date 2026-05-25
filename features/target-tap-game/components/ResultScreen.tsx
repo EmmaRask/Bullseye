@@ -4,7 +4,7 @@
  * Result screen for completed game session.
  * Uses Tivoli transaction id for payout when the player wins.
  */
-
+import { useEffect, useState } from "react";
 import { payoutTransaction } from '../../../api/centralbankApi';
 import { useResultData } from '../../../hooks/useResultData';
 import { gameSession } from '../../../game/gameSession';
@@ -23,13 +23,19 @@ export function ResultScreen() {
   const hasWon = sessionScore >= WIN_LIMIT;
   const payoutAmount = hasWon ? PAYOUT_AMOUNT : 0;
 
+  const [canReplay, setCanReplay] = useState(false);
+
+  useEffect(() => {
   const replayWindowStartedAt = Number(
-  sessionStorage.getItem("replay_window_started_at")
+    sessionStorage.getItem("replay_window_started_at")
   );
 
-const canReplay =
-  replayWindowStartedAt > 0 &&
-  Date.now() - replayWindowStartedAt < REPLAY_WINDOW_MS;
+  setCanReplay(
+    replayWindowStartedAt > 0 &&
+      Date.now() - replayWindowStartedAt < REPLAY_WINDOW_MS
+  );
+  }, []);
+  
   
 
   function closeAmusement(): void {
