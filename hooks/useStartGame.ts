@@ -45,6 +45,7 @@ export function useStartGame(): UseStartGameReturn {
         String(transaction.transaction_id)
       );
       gameSession.startGame();
+      sessionStorage.setItem("replay_window_started_at", Date.now().toString());
 
       router.push("/play");
     } catch (error) {

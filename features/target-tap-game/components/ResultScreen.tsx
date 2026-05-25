@@ -10,7 +10,10 @@ import { useResultData } from '../../../hooks/useResultData';
 import { gameSession } from '../../../game/gameSession';
 import { GameSessionModal } from './GameSessionModal';
 import styles from './ResultScreen.module.css';
-import { WIN_LIMIT, REPLAY_COST,PAYOUT_AMOUNT } from '../../../game/config'; 
+import { WIN_LIMIT,
+        REPLAY_COST,
+        PAYOUT_AMOUNT,
+        REPLAY_WINDOW_MS, } from '../../../game/config'; 
 import { useRouter } from "next/navigation";
 import { createTransaction } from "../../../api/centralbankApi";
 
@@ -19,6 +22,15 @@ export function ResultScreen() {
   const router = useRouter();
   const hasWon = sessionScore >= WIN_LIMIT;
   const payoutAmount = hasWon ? PAYOUT_AMOUNT : 0;
+
+  const replayWindowStartedAt = Number(
+  sessionStorage.getItem("replay_window_started_at")
+  );
+
+const canReplay =
+  replayWindowStartedAt > 0 &&
+  Date.now() - replayWindowStartedAt < REPLAY_WINDOW_MS;
+  
 
   function closeAmusement(): void {
     window.parent.postMessage(
@@ -54,6 +66,11 @@ export function ResultScreen() {
 
   async function handleReplay(): Promise<void> {
   const identityToken = sessionStorage.getItem("identity_token");
+
+  if (!canReplay) {
+  console.error("Replay window has expired");
+  return;
+}
 
   if (!identityToken) {
     console.error("Missing identity token for replay");
@@ -132,9 +149,11 @@ export function ResultScreen() {
         <button className={styles.quit} onClick={handlePayout}>
           {hasWon ? 'Payout & Quit' : 'Quit'}
         </button>
-        <button className={styles.replay} onClick={handleReplay}>
-         Play again for {REPLAY_COST}€
-        </button>
+        {canReplay && (
+          <button className={styles.replay} onClick={handleReplay}>
+            Play again for {REPLAY_COST}€
+          </button>
+        )}
       </div>
       </div>
     </>

@@ -76,6 +76,7 @@ export const gameSession = {
     if (typeof window === 'undefined') return;
     sessionStorage.removeItem(GAME_STATUS_KEY);
     sessionStorage.removeItem(TRANSACTION_KEY);
+    sessionStorage.removeItem("replay_window_started_at");
   },
 
 setTransaction(transactionId: string): void {

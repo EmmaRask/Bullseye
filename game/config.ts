@@ -29,3 +29,4 @@ export const ENTRY_COST = 2;
 export const REPLAY_COST = 1;
 export const PAYOUT_AMOUNT = 4;
 
+export const REPLAY_WINDOW_MS = 3 * 60 * 1000;
