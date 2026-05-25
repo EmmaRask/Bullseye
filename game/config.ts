@@ -3,10 +3,10 @@ export const CIRCLE_SIZE = 15;
 export const CONTAINER_WIDTH = 300;
 export const CONTAINER_HEIGHT = 500;
 export const BORDER_WIDTH = 2; // border thickness on each side
-export const BUOYANCY = 350; // strength of center-seeking force (scaled for delta time)
+export const BUOYANCY = 1000; // strength of center-seeking force (scaled for delta time)
 export const GAME_DURATION = 30; // seconds
-export const LOSE_LIMIT = 50; // minimum score to avoid losing
-export const WIN_LIMIT = 150; // minimum score to win
+export const LOSE_LIMIT = 200; // minimum score to avoid losing
+export const WIN_LIMIT = 200; // minimum score to win
 export const SHOT_COOLDOWN = 90; // milliseconds between shots
 
 export const TARGETS_CONFIG = [
