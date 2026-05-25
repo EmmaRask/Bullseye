@@ -14,7 +14,7 @@ export const TARGETS_CONFIG = [
   { size: 30, label: 'S' },
   { size: 40, label: 'M' },
   { size: 50, label: 'L' },
-  { size: 200, label: 'XL' },
+  { size: 60, label: 'XL' },
 ];
 
 export const POINTS_MAP: Record<string, number> = {
@@ -22,7 +22,7 @@ export const POINTS_MAP: Record<string, number> = {
   S: 40,
   M: 30,
   L: 20,
-  XL: 10,
+  XL: 200,
 };
 
 export const ENTRY_COST = 2;
