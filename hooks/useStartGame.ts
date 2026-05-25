@@ -1,5 +1,6 @@
 
 import { useRouter } from "next/navigation";
+import { ENTRY_COST } from "../game/config";
 import { useState } from "react";
 import { createTransaction } from "../api/centralbankApi";
 import { gameSession } from "../game/gameSession";
@@ -30,7 +31,7 @@ export function useStartGame(): UseStartGameReturn {
 
       const transaction = await createTransaction({
         identity_token: identityToken,
-        amount: 1,
+        amount: ENTRY_COST,
       });
 
       if (!transaction.transaction_id) {

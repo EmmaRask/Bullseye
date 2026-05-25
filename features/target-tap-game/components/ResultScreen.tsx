@@ -10,16 +10,16 @@ import { useResultData } from '../../../hooks/useResultData';
 import { gameSession } from '../../../game/gameSession';
 import { GameSessionModal } from './GameSessionModal';
 import styles from './ResultScreen.module.css';
-import { WIN_LIMIT } from '../../../game/config'; 
-
-const TIVOLI_FRONTEND_URL = 'https://loopland.se';
+import { WIN_LIMIT, REPLAY_COST,PAYOUT_AMOUNT } from '../../../game/config'; 
+import { useRouter } from "next/navigation";
+import { createTransaction } from "../../../api/centralbankApi";
 
 export function ResultScreen() {
   const { scores, sessionScore, stamp, transactionId } = useResultData();
-
+  const router = useRouter();
   const hasWon = sessionScore >= WIN_LIMIT;
-  const payoutAmount = hasWon ? 5 : 0;
-  
+  const payoutAmount = hasWon ? PAYOUT_AMOUNT : 0;
+
   function closeAmusement(): void {
     window.parent.postMessage(
       { type: "AMUSEMENT_CLOSE" },
@@ -28,6 +28,7 @@ export function ResultScreen() {
   }
 
   async function handlePayout(): Promise<void> {
+    
     if (!hasWon) {
       gameSession.reset();
       closeAmusement();
@@ -50,6 +51,34 @@ export function ResultScreen() {
       console.error('Payout failed:', error);
     }
   }
+
+  async function handleReplay(): Promise<void> {
+  const identityToken = sessionStorage.getItem("identity_token");
+
+  if (!identityToken) {
+    console.error("Missing identity token for replay");
+    return;
+  }
+
+  try {
+    const transaction = await createTransaction({
+      identity_token: identityToken,
+      amount: REPLAY_COST,
+    });
+
+    sessionStorage.setItem("transaction", JSON.stringify(transaction));
+    gameSession.setTransaction(String(transaction.transaction_id));
+
+    sessionStorage.removeItem("sessionScore");
+    sessionStorage.removeItem("game_state");
+
+    gameSession.startGame();
+
+    router.push("/play");
+  } catch (error) {
+    console.error("Replay failed:", error);
+  }
+}
 
   return (
     <>
@@ -91,10 +120,10 @@ export function ResultScreen() {
               : ''}
             {stamp.animal}
           </span>
-            </>
+          </>
           )
         ) : (
-          <span>-</span>
+          <span>No new stamp this round, partner</span>
         )}
       </div>
       </div>
@@ -102,6 +131,9 @@ export function ResultScreen() {
       <div className={styles.hori}>
         <button className={styles.quit} onClick={handlePayout}>
           {hasWon ? 'Payout & Quit' : 'Quit'}
+        </button>
+        <button className={styles.replay} onClick={handleReplay}>
+         Play again for {REPLAY_COST}€
         </button>
       </div>
       </div>

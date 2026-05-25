@@ -25,4 +25,7 @@ export const POINTS_MAP: Record<string, number> = {
   XL: 10,
 };
 
+export const ENTRY_COST = 1;
+export const REPLAY_COST = 0.5;
+export const PAYOUT_AMOUNT = 5;
 
