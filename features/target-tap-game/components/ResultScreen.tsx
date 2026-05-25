@@ -136,9 +136,15 @@ export function ResultScreen() {
       </div>
 
       <div className={styles.rewards}>
-        <p className={styles.payoutAmount}>
-          {hasWon ? `${payoutAmount}€` : '0€'}
-        </p>
+        {hasWon ? (
+          <p className={styles.payoutAmount}>
+            {payoutAmount}€
+          </p>
+        ) : (
+          <p className={styles.noCash}>
+            No cash this round, cowboy!
+          </p>
+        )}
 
         <div className={styles.stampCircle}>
           {stamp ? (

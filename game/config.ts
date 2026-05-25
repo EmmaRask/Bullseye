@@ -22,7 +22,7 @@ export const POINTS_MAP: Record<string, number> = {
   S: 40,
   M: 30,
   L: 20,
-  XL: 200,
+  XL: 10,
 };
 
 export const ENTRY_COST = 2;
