@@ -10,15 +10,16 @@ import { useResultData } from '../../../hooks/useResultData';
 import { gameSession } from '../../../game/gameSession';
 import { GameSessionModal } from './GameSessionModal';
 import styles from './ResultScreen.module.css';
+import { WIN_LIMIT } from '../../../game/config'; 
 
 const TIVOLI_FRONTEND_URL = 'https://loopland.se';
 
 export function ResultScreen() {
   const { scores, sessionScore, stamp, transactionId } = useResultData();
 
-  const hasWon = sessionScore >= 100;
+  const hasWon = sessionScore >= WIN_LIMIT;
   const payoutAmount = hasWon ? 5 : 0;
-
+  
   function closeAmusement(): void {
     window.parent.postMessage(
       { type: "AMUSEMENT_CLOSE" },
