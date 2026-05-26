@@ -1,4 +1,4 @@
-/* @import './sharedVariables.css'; */
+@import './sharedVariables.css';
 
 .pageWrapper {
   background-color: var(--pageBackgroundColor);
