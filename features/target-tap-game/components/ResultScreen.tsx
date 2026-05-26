@@ -135,7 +135,7 @@ export function ResultScreen() {
         ))}
       </div>
 
-      <div className={styles.rewards}>
+      <div className={styles.rewards} aria-live="polite">
         {hasWon ? (
           <p className={styles.payoutAmount}>
             {payoutAmount}€
@@ -173,11 +173,11 @@ export function ResultScreen() {
       </div>
 
       <div className={styles.hori}>
-        <button className={styles.quit} onClick={handlePayout}>
+        <button type="button" className={styles.quit} onClick={handlePayout}>
           {hasWon ? 'Payout & Quit' : 'Quit'}
         </button>
         {canReplay && (
-          <button className={styles.replay} onClick={handleReplay}>
+          <button type="button" className={styles.replay} onClick={handleReplay}>
             Play again for {REPLAY_COST}€
           </button>
         )}
