@@ -1,36 +1,170 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bullseye 🎯
 
-## Getting Started
+Bullseye is a western-themed target shooting game built for the Loopland/Tivoli ecosystem. Players aim and shoot moving targets to collect points, win payouts, and earn collectible stamps.
 
-First, run the development server:
+The project was developed as part of a school group assignment focused on fullstack game integration, API communication, transactions, and interactive frontend design.
+
+---
+
+# Features
+
+## Gameplay
+
+* Moving crosshair aiming system
+* Multiple target sizes with different point values
+* Score-based win condition
+* Mobile and keyboard controls
+* Replay system with discounted replay cost
+
+## Reward System
+
+* Win cash payouts by reaching the score limit
+* Earn collectible stamps
+* High score leaderboard
+* Replay window system for cheaper retries during an active session
+
+## Session Handling
+
+* Game session persistence with sessionStorage
+* Resume unfinished sessions
+* Protected replay window
+* Transaction tracking
+* Safe payout handling
+
+## UX Improvements
+
+* Custom western-themed UI
+* Styled game preview card
+* Clear result messaging
+* Replay cooldown protection
+* Improved win/loss feedback
+
+---
+
+# Tech Stack
+
+## Frontend
+
+* Next.js 16
+* React
+* TypeScript
+* CSS Modules
+
+## Backend/API Integration
+
+* Loopland Centralbank API
+* Tivoli transaction flow
+* Supabase leaderboard integration
+
+---
+
+# Game Rules
+
+## Costs & Rewards
+
+* Entry Cost: 2€
+* Replay Cost: 1€
+* Payout Amount: 4€
+
+## Scoring
+
+| Target | Points |
+| ------ | ------ |
+| XL     | 10     |
+| L      | 20     |
+| M      | 30     |
+| S      | 40     |
+| XS     | 50     |
+
+Players must reach the configured win limit to receive a payout.
+
+---
+
+# Controls
+
+## Mobile
+
+Tap the screen to shoot targets through the moving crosshair.
+
+## Desktop
+
+Use the spacebar or click to shoot while aiming with the moving crosshair.
+
+---
+
+# Replay System
+
+Bullseye includes a replay system that allows players to replay the game for a reduced price during a limited replay window.
+
+### Replay Protection
+
+To prevent abuse:
+
+* Replay is only available for a limited time after starting a session
+* Replay access expires automatically
+* Replay state resets when quitting the game properly
+
+---
+
+# Installation
+
+## Clone repository
+
+```bash
+git clone <repository-url>
+```
+
+## Install dependencies
+
+```bash
+npm install
+```
+
+## Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Build project
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Create a `.env.local` file containing the required API credentials.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Example:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+NEXT_PUBLIC_API_URL=
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Contributors
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Developed as a collaborative student project.
+
+Special focus areas included:
+
+* Game logic
+* API integration
+* Transaction handling
+* Replay flow
+* UI/UX polish
+* Session management
+
+---
+
+# Notes
+
+This project was created for educational purposes as part of a school assignment.
+
+Bullseye integrates with the Loopland/Tivoli ecosystem and follows the provided API requirements for transactions, payouts, and stamps.entation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
