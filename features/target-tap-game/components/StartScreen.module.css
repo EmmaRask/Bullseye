@@ -95,6 +95,16 @@
   margin-top: 1rem;
 }
 
+.instructions p {
+  font-size: large;
+  font-weight: normal;
+  font-family: Arial;
+}
+
+.instructions ul {
+  margin: 1rem;
+}
+
 @media (min-width: 768px) {
   .panel {
     width: 690.3px;

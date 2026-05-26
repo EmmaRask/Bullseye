@@ -5,7 +5,7 @@ import { useStartGame } from "../../../hooks/useStartGame";
 import { useTivoliUser } from "../../../hooks/useTivoliUser";
 import { GameSessionModal } from "./GameSessionModal";
 import styles from "./StartScreen.module.css";
-import { PAYOUT_AMOUNT, REPLAY_COST, WIN_LIMIT, ENTRY_COST } from "@/game/config";
+import { PAYOUT_AMOUNT, REPLAY_COST, WIN_LIMIT, ENTRY_COST, TARGETS_CONFIG, POINTS_MAP } from "@/game/config";
 
 export function StartScreen() {
   const {
@@ -49,37 +49,46 @@ export function StartScreen() {
             Howdy {playerName}! Got what it takes to win, partner?
           </p>
       )}
-        <h2>How to play</h2>
+        
         <div className={styles.instructions}>
+
+          <h2>Pricing & Winnings</h2>
+
           <p>
-            {ENTRY_COST}€ to play game to win {PAYOUT_AMOUNT}€ and get your fancy stamp.
+            Entry cost: {ENTRY_COST}€
+          </p>
+          <p>
+            Replay cost on same token: {REPLAY_COST}€
           </p>
 
           <p>
-            Winnings over {WIN_LIMIT} points: {PAYOUT_AMOUNT}€!
+            Winnings over {WIN_LIMIT} points: {PAYOUT_AMOUNT}€
           </p>
 
+          <h2>How to play</h2>
+
+          <p>A rectangular game area houses five targets of different sizes. A reticle moves across this area. Shoot while the reticle overlaps with a target to hit the target to score points.</p>
+
           <p>
-            Each target gives different points:
+            Target points guide:
           </p>
 
           <ul>
-            <li>XL - 10 points</li>
-            <li>L - 20 points</li>
-            <li>M - 30 points</li>
-            <li>S - 40 points</li>
+            {TARGETS_CONFIG.map((target) => (
+              <li key={target.label}>
+                {target.label} - {POINTS_MAP[target.label]} points
+              </li>
+            ))}
           </ul>
 
+            <h2>Controls</h2>
+
           <p>
-            Replay cheap during your token period for just {REPLAY_COST}€!
+            Mobile: tap within the game area to shoot
           </p>
 
           <p>
-            Mobile: tap the screen to shoot through your moving crosshair.
-          </p>
-
-          <p>
-            Computer: use spacebar or tuchpad to hit your targets, partner!
+            Desktop: press spacebar or click within the game area to shoot
           </p>
         </div>
       </section>
