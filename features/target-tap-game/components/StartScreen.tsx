@@ -41,14 +41,14 @@ export function StartScreen() {
       <section className={styles.panel}>
   
         {loading ? (
-          <p>Loading player...</p>
-        ) : error ? (
-          <p>{error}</p>
+          <p aria-live="polite">Loading player...</p>
+            ) : error ? (
+          <p role="alert" className={styles.errorMessage}>{error}</p>
         ) : (
           <p>
             Howdy {playerName}! Got what it takes to win, partner?
           </p>
-      )}
+        )}
         
         <div className={styles.instructions}>
 
@@ -95,14 +95,20 @@ export function StartScreen() {
 
       <section className={styles.panel}>
         <button
+          type="button"
           className={styles.button}
           onClick={handleStartGame}
           disabled={isLoading}
+          aria-describedby={errorMessage ? "start-error" : undefined}
         >
           {isLoading ? "Starting..." : "Pay & Start"}
         </button>
 
-        {errorMessage && <p role="alert">{errorMessage}</p>}
+        {errorMessage && (
+          <p id="start-error" role="alert" className={styles.errorMessage}>
+            {errorMessage}
+          </p> 
+        )}
       </section>
       </div>
     </>
