@@ -1,4 +1,4 @@
-@import './sharedVariables.css';
+/* @import './sharedVariables.css'; */
 
 .pageWrapper {
     background-color: var(--pageBackgroundColor);
@@ -135,23 +135,5 @@
 
   .rewards {
     width: 690.3px;
-  }
-
-  .wrapper {
-    max-width: 720px;
-    padding: 3rem;
-  }
-
-  .heroPanel {
-    min-height: 340px;
-  }
-
-  .targetWrapper {
-    width: 300px;
-    height: 300px;
-  }
-
-  .button {
-    max-width: 420px;
   }
 }
