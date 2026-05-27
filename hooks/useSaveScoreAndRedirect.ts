@@ -17,10 +17,20 @@ export function useSaveScoreAndRedirect({
     if (!gameOver) return;
 
     async function saveScoreAndRedirect(): Promise<void> {
+      sessionStorage.setItem("sessionScore", sessionScore.toString());
+
+      const isDemoMode = sessionStorage.getItem("demo_mode") === "true";
+
+      if (isDemoMode) {
+        setTimeout(() => {
+          router.push("/result");
+        }, 2000);
+
+        return;
+      }
+
       const playerName = sessionStorage.getItem("player_name") ?? "Unknown";
       const transactionId = gameSession.getTransaction();
-
-      sessionStorage.setItem("sessionScore", sessionScore.toString());
 
       if (!transactionId) {
         console.error("Missing transaction id when saving score");

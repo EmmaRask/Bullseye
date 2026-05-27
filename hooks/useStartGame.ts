@@ -25,11 +25,29 @@ export function useStartGame(): UseStartGameReturn {
       const identityToken = sessionStorage.getItem("identity_token");
 
       if (!identityToken) {
-        setErrorMessage("Missing identity token. Please enter through Tivoli.");
-        return;
-      }
+        sessionStorage.setItem("demo_mode", "true");
+        sessionStorage.setItem("player_name", "Guest");
 
-      const transaction = await createTransaction({
+        sessionStorage.setItem(
+        "transaction",
+        JSON.stringify({
+        transaction_id: "demo",
+        amount: 0,
+        stamp: null,
+      })
+    );
+      
+
+  gameSession.setTransaction("demo");
+  gameSession.startGame();
+
+  router.push("/play");
+  return;
+}
+
+sessionStorage.removeItem("demo_mode");
+
+  const transaction = await createTransaction({
         identity_token: identityToken,
         amount: ENTRY_COST,
       });

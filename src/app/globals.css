@@ -1,13 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  --pageBackgroundColor: #bf3b3b;
-  --gameContainerColor: #f2c356;
-  --highlightColor: #ffeb00;
-  --displayFont: var(--font-wellfleet);
-}
-
-
 body {
   font-family: Arial, Helvetica, sans-serif;
 }

@@ -22,6 +22,12 @@ export function ResultScreen() {
   const router = useRouter();
   const hasWon = sessionScore >= WIN_LIMIT;
   const payoutAmount = hasWon ? PAYOUT_AMOUNT : 0;
+  
+  const [isDemoMode, setIsDemoMode] = useState(false);
+
+  useEffect(() => {
+  setIsDemoMode(sessionStorage.getItem("demo_mode") === "true");
+  }, []);
 
   const [canReplay, setCanReplay] = useState(false);
 
@@ -59,6 +65,13 @@ export function ResultScreen() {
   }
   
   async function handlePayout(): Promise<void> {
+  const isDemoMode = sessionStorage.getItem("demo_mode") === "true";
+
+    if (isDemoMode) {
+        gameSession.reset();
+        router.push("/");
+      return;
+    }
   const stored = sessionStorage.getItem("winning_transaction_ids");
   const winningIds: string[] = stored ? JSON.parse(stored) : [];
 
@@ -86,6 +99,18 @@ export function ResultScreen() {
   }
 
   async function handleReplay(): Promise<void> {
+
+    const isDemoMode = sessionStorage.getItem("demo_mode") === "true";
+
+    if (isDemoMode) {
+      sessionStorage.removeItem("sessionScore");
+      sessionStorage.removeItem("game_state");
+      gameSession.setTransaction("demo");
+      gameSession.startGame();
+      router.push("/play");
+      return;
+    }
+
   const identityToken = sessionStorage.getItem("identity_token");
 
   if (!canReplay) {
@@ -136,49 +161,57 @@ export function ResultScreen() {
       </div>
 
       <div className={styles.rewards} aria-live="polite">
-        {hasWon ? (
-          <p className={styles.payoutAmount}>
-            {payoutAmount}€
-          </p>
-        ) : (
+       
+       {isDemoMode ? (
           <p className={styles.noCash}>
-            No cash this round, cowboy!
+            {hasWon
+              ? "Well played, cowboy!"
+              : "Those scores ain't enough, partner. Try again!"}
           </p>
+          ) : hasWon ? (
+            <p className={styles.payoutAmount}>
+              {payoutAmount}€
+            </p>
+          ) : (
+            <p className={styles.noCash}>
+              No cash this round, cowboy!
+            </p>
         )}
 
         <div className={styles.stampCircle}>
-          {stamp ? (
+          {isDemoMode ? (
+            <span>Demo mode — no stamps or cash</span>
+              ) : stamp ? (
               typeof stamp === 'string' ? (
-              <span>{stamp}</span>
+            <span>{stamp}</span>
             ) : (
-            <>
-            <img
-              src={stamp.image_url.replace('http://', 'https://')}
-              alt={`${stamp.metal ?? ''} ${stamp.animal}`}
-              className={styles.stampImage}
-            />
+          <>
+          <img
+            src={stamp.image_url.replace('http://', 'https://')}
+            alt={`${stamp.metal ?? ''} ${stamp.animal}`}
+            className={styles.stampImage}
+          />
 
-           <span>
-            {stamp.metal
-              ? `${stamp.metal} `
-              : ''}
+          <span>
+            {stamp.metal ? `${stamp.metal} ` : ''}
             {stamp.animal}
           </span>
           </>
-          )
+        )
         ) : (
           <span>No new stamp this round, partner</span>
         )}
       </div>
       </div>
+      
 
       <div className={styles.hori}>
         <button type="button" className={styles.quit} onClick={handlePayout}>
           {hasWon ? 'Payout & Quit' : 'Quit'}
         </button>
-        {canReplay && (
+        {(canReplay || isDemoMode) && (
           <button type="button" className={styles.replay} onClick={handleReplay}>
-            Play again for {REPLAY_COST}€
+            {isDemoMode ? "Play Again" : `Play again for ${REPLAY_COST}€`}
           </button>
         )}
       </div>
